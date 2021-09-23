@@ -5,6 +5,7 @@ import com.chipset.commands.GetAvatarSlash;
 import com.chipset.commands.MessageListener;
 import com.chipset.commands.SaySlash;
 import com.chipset.main.ReadyListener;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -18,8 +19,11 @@ import javax.security.auth.login.LoginException;
 
 
 public class Bot {
+    static Dotenv dotenv = Dotenv.load();
+    static String token = dotenv.get("TOKEN");
+
     public static void main(String[] arguments) {
-        JDABuilder jdaBuilder = JDABuilder.createDefault("ODQ3NTIwMzUwMjkxNDkyOTc0.YK_Q1Q.OgHFgN3JALul_Nr3hgqK0KNStZM");
+        JDABuilder jdaBuilder = JDABuilder.createDefault(token);
         jdaBuilder.setStatus(OnlineStatus.DO_NOT_DISTURB);
         jdaBuilder.setActivity(Activity.watching("airplanes"));
 
