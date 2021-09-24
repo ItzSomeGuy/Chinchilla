@@ -1,0 +1,10 @@
+.idea
+target
+*.iml
+logs
+application.cfg
+tmp
+build
+.gradle
+log/
+out

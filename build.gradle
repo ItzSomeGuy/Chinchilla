@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+}
+
+mainClassName = 'com.chipset.main.Bot'
+version '1.0'
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:4.3.0_330'
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'io.github.cdimascio:dotenv-java:2.2.0'
+}
+
+compileJava.options.encoding = 'UTF-8'
