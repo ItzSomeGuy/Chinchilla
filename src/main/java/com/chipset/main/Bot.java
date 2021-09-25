@@ -1,10 +1,7 @@
 package com.chipset.main;
 
 
-import com.chipset.commands.BanSlash;
-import com.chipset.commands.GetAvatarSlash;
-import com.chipset.commands.MessageListener;
-import com.chipset.commands.SaySlash;
+import com.chipset.commands.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -31,7 +28,8 @@ public class Bot {
                 new MessageListener(),
                 new SaySlash(),
                 new GetAvatarSlash(),
-                new BanSlash());
+                new BanSlash(),
+                new PingSlash());
 
         try {
             JDA bot = jdaBuilder.build();
@@ -48,6 +46,8 @@ public class Bot {
                     .addCommands(new CommandData("ban", "bans the user specified")
                             .addOption(OptionType.USER, "target", "user you want to ban", true)
                             .addOption(OptionType.STRING, "reason", "why you are banning them"))
+                    .addCommands(new CommandData("ping", "ping pong oo haha!")
+                            .addOption(OptionType.USER, "target", "the person I want to annoy", true))
                     .queue();
         } catch (LoginException | InterruptedException e) {
             System.err.println("Couldn't log in.");
