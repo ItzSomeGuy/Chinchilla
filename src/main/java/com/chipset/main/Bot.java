@@ -25,7 +25,6 @@ public class Bot {
 
         jdaBuilder.addEventListeners(
                 new ReadyListener(),
-                new MessageListener(),
                 new SaySlash(),
                 new GetAvatarSlash(),
                 new BanSlash(),
