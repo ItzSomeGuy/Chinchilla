@@ -28,9 +28,8 @@ public class Bot {
                 new SaySlash(),
                 new GetAvatarSlash(),
                 new BanSlash(),
-                new RenameSlash());
-                new BanSlash(),
-                new PingSlash());
+                new RenameSlash(),
+                new BanSlash());
 
         try {
             JDA bot = jdaBuilder.build();
@@ -50,8 +49,6 @@ public class Bot {
                     .addCommands(new CommandData("rename", "change your nickname or someone else's")
                             .addOption(OptionType.USER, "target", "the person whom you want to rename")
                             .addOption(OptionType.STRING, "new_nickname", "the cool nickname you thought of"))
-                    .addCommands(new CommandData("ping", "ping pong oo haha!")
-                            .addOption(OptionType.USER, "target", "the person I want to annoy", true))
                     .queue();
         } catch (LoginException | InterruptedException e) {
             System.err.println("Couldn't log in.");
