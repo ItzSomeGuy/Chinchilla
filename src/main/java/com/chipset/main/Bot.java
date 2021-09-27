@@ -30,7 +30,8 @@ public class Bot {
                 new BanSlash(),
                 new RenameSlash(),
                 new BanSlash(),
-                new FlipSlash());
+                new FlipSlash(),
+                new RollSlash());
 
         try {
             JDA bot = jdaBuilder.build();
@@ -51,6 +52,9 @@ public class Bot {
                             .addOption(OptionType.USER, "target", "the person whom you want to rename")
                             .addOption(OptionType.STRING, "new_nickname", "the cool nickname you thought of"))
                     .addCommands(new CommandData("flip", "flips a coin"))
+                    .addCommands(new CommandData("roll", "rolls some amount of die/dice")
+                            .addOption(OptionType.INTEGER, "count", "number of dice you are rolling", true)
+                            .addOption(OptionType.INTEGER, "sides", "how many sides your die has", true))
                     .queue();
         } catch (LoginException | InterruptedException e) {
             System.err.println("Couldn't log in.");
