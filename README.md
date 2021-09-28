@@ -5,7 +5,7 @@
 - Music
 - SPADE
 - Golden Egg
-- D&D Handler
+- ~~D&D Handler~~
 - LFG
 
 
