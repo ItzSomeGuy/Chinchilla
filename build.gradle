@@ -6,7 +6,7 @@ plugins {
 
 mainClassName = 'com.chipset.main.Bot'
 version '1.0'
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 repositories {
     maven {
@@ -20,6 +20,8 @@ dependencies {
     implementation 'net.dv8tion:JDA:4.3.0_330'
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'io.github.cdimascio:dotenv-java:2.2.0'
+    implementation 'com.opencsv:opencsv:5.5.2'
 }
 
 compileJava.options.encoding = 'UTF-8'
+targetCompatibility = JavaVersion.VERSION_1_9
