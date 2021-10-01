@@ -4,8 +4,8 @@
 - Ban Insurance
 - Music
 - SPADE
-- Golden Egg
-- ~~D&D Handler~~
+- ~~Golden Egg
+- ~~D&D Handler
 - LFG
 
 
