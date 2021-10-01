@@ -67,7 +67,8 @@ public class DataHandler {
 
             //get data
             List<Member> memberList = new ArrayList<>();
-            guild.loadMembers(memberList::add).get();
+//            guild.loadMembers(memberList::add).get();
+            guild.loadMembers().onSuccess(memberList::addAll);
 
             //write data
             for (int i=0; i< memberList.size(); i++) {
