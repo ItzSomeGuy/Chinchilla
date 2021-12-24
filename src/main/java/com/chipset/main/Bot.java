@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import javax.security.auth.login.LoginException;
 
@@ -17,14 +19,18 @@ import javax.security.auth.login.LoginException;
 public class Bot {
     static Dotenv dotenv = Dotenv.load();
     static String token = dotenv.get("TOKEN");
+    static JDA bot;
 
     public static void main(String[] arguments) {
         JDABuilder jdaBuilder = JDABuilder.createDefault(token);
         jdaBuilder.setStatus(OnlineStatus.DO_NOT_DISTURB);
         jdaBuilder.setActivity(Activity.watching("airplanes"));
+        jdaBuilder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+        jdaBuilder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         jdaBuilder.addEventListeners(
                 new ReadyListener(),
+                new MessageHandler(),
                 new SaySlash(),
                 new GetAvatarSlash(),
                 new BanSlash(),
@@ -35,11 +41,14 @@ public class Bot {
                 new RandCharSlash());
 
         try {
-            JDA bot = jdaBuilder.build();
+            bot = jdaBuilder.build();
             bot.awaitReady();
 
             Guild guild = bot.getGuildById("847520841217343488");
             assert guild != null;
+
+            DataHandler.updateCSV(guild);
+
             guild.updateCommands()
                     .addCommands(new CommandData("say", "says the contents of the message")
                             .addOption(OptionType.STRING, "content", "repeats your message", true))
