@@ -30,7 +30,6 @@ public class Bot {
 
         jdaBuilder.addEventListeners(
                 new ReadyListener(),
-                new MessageHandler(),
                 new SaySlash(),
                 new GetAvatarSlash(),
                 new BanSlash(),
@@ -45,8 +44,6 @@ public class Bot {
 
             Guild guild = bot.getGuildById("847520841217343488");
             assert guild != null;
-
-            DataHandler.updateCSV(guild);
 
             guild.updateCommands()
                     .addCommands(new CommandData("say", "says the contents of the message")
