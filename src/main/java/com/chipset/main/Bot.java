@@ -37,8 +37,7 @@ public class Bot {
                 new RenameSlash(),
                 new BanSlash(),
                 new FlipSlash(),
-                new RollSlash(),
-                new RandCharSlash());
+                new RollSlash());
 
         try {
             bot = jdaBuilder.build();
@@ -65,7 +64,6 @@ public class Bot {
                     .addCommands(new CommandData("roll", "rolls some amount of die/dice")
                             .addOption(OptionType.INTEGER, "count", "number of dice you are rolling", true)
                             .addOption(OptionType.INTEGER, "sides", "how many sides your die has", true))
-                    .addCommands(new CommandData("rc", "generates random character stats"))
                     .queue();
         } catch (LoginException | InterruptedException e) {
             System.err.println("Couldn't log in.");

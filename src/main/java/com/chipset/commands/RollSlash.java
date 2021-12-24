@@ -1,6 +1,5 @@
 package com.chipset.commands;
 
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -16,7 +15,6 @@ public class RollSlash extends ListenerAdapter {
 
             int count = (int) Objects.requireNonNull(event.getOption("count")).getAsLong();
             int sides = (int) Objects.requireNonNull(event.getOption("sides")).getAsLong();
-            Member author = event.getMember();
 
             List<Integer> result = new ArrayList<>();
             int total = 0;
@@ -27,12 +25,11 @@ public class RollSlash extends ListenerAdapter {
                 total += res;
             }
 
-            String rolls = String.format("**result:** %s", result.toString().replaceAll("[,\\[\\]]",""));
-            rolls = rolls.replaceAll(" 1 ", " **1** ");
-            rolls = rolls.replaceAll(" "+sides+" ", " **"+sides+"** ");
+            String rolls = String.format("**result:** %s", result.toString().replaceAll("[,\\[,\\]]",""));
+            rolls = rolls.replaceAll("1", "**1**");
+            rolls = rolls.replaceAll(String.valueOf(sides), "**"+sides+"**");
 
-            assert author != null;
-            String msg = String.format(author.getAsMention() + " 🎲 %sd%s %n", count, sides) + rolls + String.format("\n**total:** %d", total);
+            String msg = String.format("🎲 %sd%s %n", count, sides) + rolls + String.format("\n**total:** %d", total);
 
             event.reply(msg).queue();
         }
