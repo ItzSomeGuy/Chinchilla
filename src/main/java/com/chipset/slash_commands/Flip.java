@@ -1,12 +1,18 @@
-package com.chipset.commands;
+package com.chipset.slash_commands;
 
+import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Random;
 
-public class FlipSlash extends ListenerAdapter {
-    public void onSlashCommand(SlashCommandEvent event) {
+public class Flip extends SlashCommand {
+    public Flip() {
+        this.name = "flip"; // must be lowercase
+        this.help = "flips a coin";
+    }
+
+    @Override
+    public void execute(SlashCommandEvent event) {
         if (event.getName().equals("flip")) {
             Random rand = new Random();
 
@@ -14,6 +20,5 @@ public class FlipSlash extends ListenerAdapter {
             String result = (res) ? "heads" : "tails";
 
             event.reply(result).queue();
-        }
-    }
+        }}
 }

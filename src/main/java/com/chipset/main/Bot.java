@@ -1,15 +1,15 @@
 package com.chipset.main;
 
 
-import com.chipset.commands.*;
+import com.chipset.slash_commands.*;
+import com.jagrosh.jdautilities.command.CommandClient;
+import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
@@ -19,52 +19,44 @@ import javax.security.auth.login.LoginException;
 public class Bot {
     static Dotenv dotenv = Dotenv.load();
     static String token = dotenv.get("TOKEN");
-    static JDA bot;
+    public static JDA jda;
 
-    public static void main(String[] arguments) {
-        JDABuilder jdaBuilder = JDABuilder.createDefault(token);
-        jdaBuilder.setStatus(OnlineStatus.DO_NOT_DISTURB);
-        jdaBuilder.setActivity(Activity.watching("airplanes"));
-        jdaBuilder.enableIntents(GatewayIntent.GUILD_MEMBERS);
-        jdaBuilder.setMemberCachePolicy(MemberCachePolicy.ALL);
+    private static final EventWaiter eventWaiter = new EventWaiter();
 
-        jdaBuilder.addEventListeners(
-                new ReadyListener(),
-                new SaySlash(),
-                new GetAvatarSlash(),
-                new BanSlash(),
-                new RenameSlash(),
-                new BanSlash(),
-                new FlipSlash(),
-                new RollSlash());
+    public static void main(String[] arguments) throws LoginException, InterruptedException {
+        CommandClientBuilder commandClient = new CommandClientBuilder();
+        commandClient.forceGuildOnly(847520841217343488L);
+        commandClient.addSlashCommands(
+                new Ban(),
+                new Flip(),
+                new PFP(),
+                new Rename(),
+                new Roll(),
+                new Say()
+        );
+        commandClient.setOwnerId(192370343510409216L);
+        CommandClient client = commandClient.build();
 
-        try {
-            bot = jdaBuilder.build();
-            bot.awaitReady();
+        JDABuilder builder = JDABuilder.createDefault(token);
+        builder.setStatus(OnlineStatus.DO_NOT_DISTURB);
+        builder.setActivity(Activity.watching("airplanes"));
+        builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
-            Guild guild = bot.getGuildById("847520841217343488");
-            assert guild != null;
+        builder.addEventListeners(
+                client,
+                eventWaiter,
+                new ReadyListener()
+        );
 
-            guild.updateCommands()
-                    .addCommands(new CommandData("say", "says the contents of the message")
-                            .addOption(OptionType.STRING, "content", "repeats your message", true))
-                    .addCommands(new CommandData("avatar", "retrieves a user's avatar")
-                            .addOption(OptionType.USER, "target", "user you want the avatar of", true)
-                            .addOption(OptionType.BOOLEAN, "stealth", "you trying to be sneaky?"))
-                    .addCommands(new CommandData("ban", "bans the user specified")
-                            .addOption(OptionType.USER, "target", "user you want to ban", true)
-                            .addOption(OptionType.STRING, "reason", "why you are banning them"))
-                    .addCommands(new CommandData("rename", "change your nickname or someone else's")
-                            .addOption(OptionType.USER, "target", "the person whom you want to rename")
-                            .addOption(OptionType.STRING, "new_nickname", "the cool nickname you thought of"))
-                    .addCommands(new CommandData("flip", "flips a coin"))
-                    .addCommands(new CommandData("roll", "rolls some amount of die/dice")
-                            .addOption(OptionType.INTEGER, "count", "number of dice you are rolling", true)
-                            .addOption(OptionType.INTEGER, "sides", "how many sides your die has", true))
-                    .queue();
-        } catch (LoginException | InterruptedException e) {
-            System.err.println("Couldn't log in.");
-            e.printStackTrace();
-        }
+        jda = builder.build();
+        jda.awaitReady();
+
+        // toggle on and restart to clear bot slash commands
+        //Objects.requireNonNull(jda.getGuildById(847520841217343488L)).updateCommands().queue();
+    }
+
+    public static EventWaiter getEventWaiter() {
+        return eventWaiter;
     }
 }
