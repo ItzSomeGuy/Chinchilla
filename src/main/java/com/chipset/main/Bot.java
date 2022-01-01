@@ -29,11 +29,19 @@ public class Bot {
         commandClient.addSlashCommands(
                 new Ban(),
                 new Flip(),
+                new Join(),
+                new Leave(),
+                new Pause(),
                 new PFP(),
                 new Punish(),
+                new Play(),
                 new Rename(),
+                new Resume(),
                 new Roll(),
-                new Say()
+                new Say(),
+                new Skip(),
+                new Stop(),
+                new QueueCmd()
         );
         commandClient.setOwnerId(192370343510409216L);
         CommandClient client = commandClient.build();
