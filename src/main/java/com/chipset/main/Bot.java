@@ -30,6 +30,7 @@ public class Bot {
                 new Ban(),
                 new Flip(),
                 new PFP(),
+                new Punish(),
                 new Rename(),
                 new Roll(),
                 new Say()
