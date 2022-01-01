@@ -22,9 +22,7 @@ public class Stop extends SlashCommand {
 
         if (vc == null) {
             event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();
-        }
-
-        else {
+        } else {
             final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
             musicManager.scheduler.player.stopTrack();
             musicManager.scheduler.queue.clear();

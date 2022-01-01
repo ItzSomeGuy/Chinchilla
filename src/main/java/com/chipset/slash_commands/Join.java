@@ -16,12 +16,9 @@ public class Join extends SlashCommand {
     public void execute(SlashCommandEvent event){
       VoiceChannel vc = Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel();
 
-
       if (vc != null) {
           AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
           manager.openAudioConnection(vc);
-
-
       }
       event.reply("joined").setEphemeral(true).queue();
     }

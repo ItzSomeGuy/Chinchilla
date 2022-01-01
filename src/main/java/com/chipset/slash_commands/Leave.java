@@ -18,7 +18,6 @@ public class Leave extends SlashCommand {
         AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
         manager.closeAudioConnection();
         event.reply("left").setEphemeral(true).queue();
-
     }
 
 }

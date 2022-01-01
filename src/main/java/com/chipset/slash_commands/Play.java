@@ -18,7 +18,6 @@ public class Play extends SlashCommand {
         this.name = "play";
         this.help = "Usage: /Play (Insert youtube link) | Plays audio from any youtube link";
 
-
         List<OptionData> options = new ArrayList<>();
         options.add(new OptionData(OptionType.STRING, "link", "Link you want played in voice channel") .setRequired(true));
 
@@ -27,14 +26,11 @@ public class Play extends SlashCommand {
 
     @Override
     public void execute(SlashCommandEvent event) {
-
-
         //gets voice channel of user who ran the command
         VoiceChannel vc = Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel();
         if (vc == null) {
             event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();
         }
-
 
         //Member self = event.getGuild().getSelfMember();
         //GuildVoiceState selfVoiceState = self.getVoiceState();

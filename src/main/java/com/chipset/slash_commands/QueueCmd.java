@@ -29,7 +29,6 @@ public class QueueCmd extends SlashCommand {
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 
-
         if (queue.isEmpty()) {
             event.reply("Queue is currently empty").setEphemeral(true).queue();
         }

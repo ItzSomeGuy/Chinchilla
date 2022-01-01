@@ -31,7 +31,6 @@ public class Bot {
                 new Flip(),
                 new Join(),
                 new Leave(),
-               // new Loop(),
                 new Pause(),
                 new PFP(),
                 new Play(),
