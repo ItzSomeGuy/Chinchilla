@@ -20,7 +20,7 @@ public class Play extends SlashCommand {
 
 
         List<OptionData> options = new ArrayList<>();
-        options.add(new OptionData(OptionType.STRING, "link", "Link you want played in voice channel"));
+        options.add(new OptionData(OptionType.STRING, "link", "Link you want played in voice channel") .setRequired(true));
 
         this.options = options;
     }
@@ -50,6 +50,6 @@ public class Play extends SlashCommand {
             TextChannel channel =  event.getTextChannel();
             PlayerManager.getInstance().loadAndPlay(channel, link);
         }
-        event.deferReply().setEphemeral(true).queue();
+        event.reply("Added").setEphemeral(true).queue();
     }
 }

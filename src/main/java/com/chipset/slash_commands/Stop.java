@@ -25,7 +25,7 @@ public class Stop extends SlashCommand {
         }
 
         else {
-            final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+            final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
             musicManager.scheduler.player.stopTrack();
             musicManager.scheduler.queue.clear();
         }

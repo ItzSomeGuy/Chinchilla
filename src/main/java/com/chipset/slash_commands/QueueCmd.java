@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -25,10 +26,9 @@ public class QueueCmd extends SlashCommand {
     @Override
     public void execute(SlashCommandEvent event) {
         TextChannel channel = event.getTextChannel();
-        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
+        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 
-        event.deferReply().setEphemeral(true).queue();
 
         if (queue.isEmpty()) {
             event.reply("Queue is currently empty").setEphemeral(true).queue();
@@ -49,12 +49,12 @@ public class QueueCmd extends SlashCommand {
                     .append(info.author)
                     .append("' ['")
                     .append(formatTime(track.getDuration()))
-                    .append("`] \n");
+                    .append("`] \n").queue();
         }
         if (trackList.size() > trackCount){
             messageAction.append("And `")
                     .append(String.valueOf(trackList.size() - trackCount))
-                    .append("` more . . .");
+                    .append("` more . . .").queue();
         }
         messageAction.queue();
     }

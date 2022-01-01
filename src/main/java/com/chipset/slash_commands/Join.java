@@ -18,7 +18,6 @@ public class Join extends SlashCommand {
 
 
       if (vc != null) {
-          event.deferReply(true);
           AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
           manager.openAudioConnection(vc);
 
