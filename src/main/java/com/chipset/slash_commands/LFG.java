@@ -57,7 +57,7 @@ public class LFG extends SlashCommand {
             assert target != null;
             String name = target.getAsString();
 
-            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(925797193019973712L);
+            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(782766243911827456L);
             assert lfgBoard != null;
 
             User creator = event.getUser();
@@ -66,7 +66,7 @@ public class LFG extends SlashCommand {
             assert guild != null;
 
             guild.createRole().setName(name).queue(role -> { // create LFG role
-                guild.createTextChannel(name, guild.getCategoryById(925291735670718494L))
+                guild.createTextChannel(name, guild.getCategoryById(782766156682494002L))
                         .addPermissionOverride(guild.getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL))
                         .addPermissionOverride(role, EnumSet.of(Permission.VIEW_CHANNEL), null)
                         .queue(textChannel -> { // create LFG channel
@@ -104,7 +104,7 @@ public class LFG extends SlashCommand {
             assert target != null;
             String name = target.getAsString();
 
-            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(925797193019973712L);
+            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(782766243911827456L);
             assert lfgBoard != null;
 
             Guild guild = event.getGuild();
