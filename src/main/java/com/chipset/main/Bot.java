@@ -25,7 +25,7 @@ public class Bot {
 
     public static void main(String[] arguments) throws LoginException, InterruptedException {
         CommandClientBuilder commandClient = new CommandClientBuilder();
-        commandClient.forceGuildOnly(847520841217343488L);
+        commandClient.forceGuildOnly(193117152709050368L);
         commandClient.addSlashCommands(
                 new Ban(),
                 new Flip(),
@@ -44,11 +44,11 @@ public class Bot {
                 new QueueCmd()
         );
         commandClient.setOwnerId(192370343510409216L);
+        commandClient.setActivity(Activity.listening("sick beats"));
         CommandClient client = commandClient.build();
 
         JDABuilder builder = JDABuilder.createDefault(token);
         builder.setStatus(OnlineStatus.DO_NOT_DISTURB);
-        builder.setActivity(Activity.watching("airplanes"));
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 
