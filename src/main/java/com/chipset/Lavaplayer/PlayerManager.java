@@ -45,17 +45,27 @@ public class PlayerManager {
             public void trackLoaded(AudioTrack track) {
                 musicManager.scheduler.queue(track);
 
-                channel.sendMessage("Adding to queue: `")
-                        .append(track.getInfo().title)
-                        .append("` by `")
-                        .append(track.getInfo().author)
-                        .append('`')
-                        .queue();
+                // if track.getInfo().title is LINK RUNNING, then print it
+                if (!track.getInfo().title.equals("LINK RUNNING")) {
+                    channel.sendMessage("`")
+                            .append(track.getInfo().title)
+                            .append("` by `")
+                            .append(track.getInfo().author)
+                            .append('`')
+                            .queue();
+                }
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                //
+                for (AudioTrack track : playlist.getTracks()) {
+                    musicManager.scheduler.queue(track);
+                }
+
+                channel.sendMessage("`")
+                        .append(playlist.getName())
+                        .append("`")
+                        .queue();
             }
 
             @Override

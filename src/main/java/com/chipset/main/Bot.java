@@ -35,7 +35,6 @@ public class Bot {
         Set<Class<? extends SlashCommand>> commands = findCommands("com.chipset.slash_commands");
         for (Class<? extends SlashCommand> command : commands) {
             if (!command.getSimpleName().equals("Add") && !command.getSimpleName().equals("Remove")) {
-                System.out.print("Adding command: " + command.getSimpleName() + "\n");
                 SlashCommand temp = command.getConstructor().newInstance();
                 commandClient.addSlashCommand(temp);
             }

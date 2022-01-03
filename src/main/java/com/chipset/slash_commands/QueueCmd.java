@@ -32,9 +32,10 @@ public class QueueCmd extends SlashCommand {
         if (queue.isEmpty()) {
             event.reply("Queue is currently empty").setEphemeral(true).queue();
         }
+
         final int trackCount = Math.min(queue.size(), 20);
         final List<AudioTrack> trackList = new ArrayList<>(queue);
-        final MessageAction messageAction = channel.sendMessage("**Current Queue**\n");
+        final MessageAction messageAction = channel.sendMessage("**Current Queue**\n");  //TODO: convert to StringBuilder
 
         for (int i = 0; i < trackCount; i++) {
             final AudioTrack track = trackList.get(i);
@@ -48,7 +49,7 @@ public class QueueCmd extends SlashCommand {
                     .append(info.author)
                     .append("' ['")
                     .append(formatTime(track.getDuration()))
-                    .append("`] \n").queue();
+                    .append("`] \n");
         }
         if (trackList.size() > trackCount){
             messageAction.append("And `")
@@ -63,5 +64,7 @@ public class QueueCmd extends SlashCommand {
         final long seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+        //TODO: add reply
     }
 }
