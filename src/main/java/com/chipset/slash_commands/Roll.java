@@ -16,9 +16,8 @@ public class Roll extends SlashCommand {
         this.help = "rolls some amount of die/dice";
 
         List<OptionData> options = new ArrayList<>();
-        options.add(new OptionData(OptionType.INTEGER, "count", "number of dice you are rolling").setRequired(true));
-        options.add(new OptionData(OptionType.INTEGER, "sides", "how many sides your die has").setRequired(true));
-        options.add(new OptionData(OptionType.STRING, "modifier", "modifier to add to the roll"));
+        options.add(new OptionData(OptionType.STRING, "calc", "the damage roll").setRequired(true));
+        options.add(new OptionData(OptionType.INTEGER, "mod", "the modifier").setRequired(false));
 
         this.options = options;
     }
@@ -28,21 +27,21 @@ public class Roll extends SlashCommand {
         //Random rand = new Random(); // less random but faster
         SecureRandom rand = new SecureRandom(); // more random but slower
 
-        int count = (int) Objects.requireNonNull(event.getOption("count")).getAsLong();
-        int sides = (int) Objects.requireNonNull(event.getOption("sides")).getAsLong();
-        String modifier = "0";
+        String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
 
-        // if modifier is not null
-        if (event.getOption("modifier") != null) {
-            modifier = Objects.requireNonNull(event.getOption("modifier")).getAsString();
+        String[] split = calc.split("d");
+
+        int count = Integer.parseInt(split[0]);
+        int sides = Integer.parseInt(split[1]);
+
+        int mod = 0;
+        String modString = "";
+        try {
+            mod = (int) Objects.requireNonNull(event.getOption("mod")).getAsLong();
+            modString = mod > 0 ? "+"+mod : Integer.toString(mod);
+        } catch (NullPointerException e) {
+            // do nothing
         }
-
-        // if modifier does not start with a + or -, set to 0
-        if (!modifier.startsWith("+") && !modifier.startsWith("-")) {
-            modifier = "+0";
-        }
-
-        int mod = Integer.parseInt(modifier);
 
         List<Integer> result = new ArrayList<>();
         int total = 0;
@@ -59,7 +58,7 @@ public class Roll extends SlashCommand {
         rolls = rolls.replaceAll(" 1 ", " **1** ");
         rolls = rolls.replaceAll(String.valueOf(sides), "**"+sides+"**");
 
-        String msg = String.format("🎲 %sd%s%s %n", count, sides, modifier) + rolls + String.format("\n**total:** %d", total);
+        String msg = String.format("🎲 %sd%s%s %n", count, sides, modString) + rolls + String.format("\n**total:** %d", total);
 
         event.reply(msg).queue();
     }

@@ -54,12 +54,12 @@ public class Crit extends SlashCommand {
             }
 
             total += c*s;
-            sb.append(c*s).append(" ");
+            sb.append("**").append(c * s).append("**").append(" ");
             sb.append("] ");
             grandTotal += total;
         }
         grandTotal += mod;
 
-        event.reply("🎲 "+calc+"+"+mod+"\n"+sb.toString()+mod+"\n**Total:** " + grandTotal).queue();
+        event.reply("🎲 "+calc+"+"+mod+"\n"+sb+mod+"\n**Total:** " + grandTotal).queue();
     }
 }
