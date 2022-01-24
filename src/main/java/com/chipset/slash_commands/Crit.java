@@ -28,6 +28,16 @@ public class Crit extends SlashCommand {
         String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
         int mod = (int) Objects.requireNonNull(event.getOption("mod")).getAsLong();
 
+        String modString;
+
+        if (mod > 0) {
+            modString = "+" + mod;
+        } else if (mod < 0) {
+            modString = Integer.toString(mod);
+        } else {
+            modString = "";
+        }
+
         TextChannel tc = event.getTextChannel();
 
         String[] rolls = calc.split("\\+");
@@ -60,6 +70,6 @@ public class Crit extends SlashCommand {
         }
         grandTotal += mod;
 
-        event.reply("🎲 "+calc+"+"+mod+"\n"+sb+mod+"\n**Total:** " + grandTotal).queue();
+        event.reply("🎲 "+calc+modString+"\n"+sb+modString+"\n**Total:** " + grandTotal).queue();
     }
 }
