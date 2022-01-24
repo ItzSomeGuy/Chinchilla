@@ -2,14 +2,19 @@
 
 ## ToDo
 - Ban Insurance
+- Golden Egg
+
+
+## Done
+- Help
 - Music
-- SPADE
-- ~~Golden Egg~~
-- ~~D&D Handler~~
+- Roll
+- Crit
 - LFG
-
-
-- General Commands:
-- help
-- choose
-- throw
+- RandChar
+- Ban
+- Flip
+- Say
+- PFP
+- Choose
+- SPADE
