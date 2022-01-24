@@ -19,6 +19,7 @@ import java.util.*;
  * manage LFG events
  * manage LFG channels
  * manage LFG permissions
+ *
  */
 
 public class LFG extends SlashCommand {

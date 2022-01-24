@@ -1,6 +1,8 @@
 package com.chipset.main;
 
 
+import com.chipset.spade.ChannelHandler;
+import com.chipset.spade.Spade;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.command.SlashCommand;
@@ -40,6 +42,9 @@ public class Bot {
             }
         }
 
+        // add the spade commands
+        commandClient.addSlashCommand(new Spade());
+
         commandClient.setOwnerId(192370343510409216L);
         commandClient.setActivity(Activity.listening("sick beats"));
         CommandClient client = commandClient.build();
@@ -52,7 +57,8 @@ public class Bot {
         builder.addEventListeners(
                 client,
                 eventWaiter,
-                new ReadyListener()
+                new ReadyListener(),
+                new ChannelHandler()
         );
 
         jda = builder.build();
