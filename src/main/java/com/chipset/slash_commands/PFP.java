@@ -15,7 +15,6 @@ public class PFP extends SlashCommand {
         this.name = "pfp"; // must be lowercase
         this.help = "fetches a user's pfp";
 
-        List<OptionData> options = new ArrayList<>();
         this.options = Collections.singletonList(new OptionData(OptionType.USER, "target", "user you want the avatar of")
                 .setRequired(true));
     }

@@ -1,6 +1,7 @@
 package com.chipset.slash_commands;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -24,42 +25,56 @@ public class Roll extends SlashCommand {
 
     @Override
     public void execute(SlashCommandEvent event) {
+        String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
+
+        int mod = 0;
+        if (event.getOption("mod") != null) {
+            mod = (int) Objects.requireNonNull(event.getOption("mod")).getAsLong();
+        }
+        String modString;
+
+        if (mod > 0) {
+            modString = "+" + mod;
+        } else if (mod < 0) {
+            modString = Integer.toString(mod);
+        } else {
+            modString = "";
+        }
+
+        TextChannel tc = event.getTextChannel();
+
+        String[] rolls = calc.split("\\+");
+        StringBuilder sb = new StringBuilder();
+
         //Random rand = new Random(); // less random but faster
         SecureRandom rand = new SecureRandom(); // more random but slower
 
-        String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
+        int grandTotal = 0;
 
-        String[] split = calc.split("d");
+        for (String r : rolls) {
+            sb.append("[ ");
+            String[] parts = r.split("d");
 
-        int count = Integer.parseInt(split[0]);
-        int sides = Integer.parseInt(split[1]);
+            int c = Integer.parseInt(parts[0]);
+            int s = Integer.parseInt(parts[1]);
 
-        int mod = 0;
-        String modString = "";
-        try {
-            mod = (int) Objects.requireNonNull(event.getOption("mod")).getAsLong();
-            modString = mod > 0 ? "+"+mod : Integer.toString(mod);
-        } catch (NullPointerException e) {
-            // do nothing
+            // calculate roll for c amount of dice with s sides
+            int total = 0;
+            for (int i = 0; i < c; i++) {
+                int roll = rand.nextInt(s) + 1;
+                total += roll;
+                if ( roll == s || roll == 1 ) {
+                    sb.append("**").append(roll).append("** ");
+                } else {
+                    sb.append(roll).append(" ");
+                }
+            }
+
+            sb.append("] ");
+            grandTotal += total;
         }
+        grandTotal += mod;
 
-        List<Integer> result = new ArrayList<>();
-        int total = 0;
-
-        for (int i=0; i<count; i++) {
-            int res = rand.nextInt((sides - 1) + 1) + 1;
-            result.add(res);
-            total += res;
-        }
-
-        total += mod;
-
-        String rolls = String.format("**result:** %s ", result.toString().replaceAll("[,\\[\\]]",""));
-        rolls = rolls.replaceAll(" 1 ", " **1** ");
-        rolls = rolls.replaceAll(String.valueOf(sides), "**"+sides+"**");
-
-        String msg = String.format("🎲 %sd%s%s %n", count, sides, modString) + rolls + String.format("\n**total:** %d", total);
-
-        event.reply(msg).queue();
+        event.reply("🎲 "+calc+modString+"\n"+sb+modString+"\n**Total:** " + grandTotal).queue();
     }
 }
