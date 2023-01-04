@@ -2,8 +2,9 @@ package com.chipset.Lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 
-public class punishTrackScheduler {
+public class punishTrackScheduler extends AudioEventAdapter {
     public final AudioPlayer punishPlayer;
 
     public final trackScheduler punishScheduler;

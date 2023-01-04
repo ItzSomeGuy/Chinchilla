@@ -18,6 +18,11 @@ public class GuildMusicManager {
         this.audioPlayer.setVolume(20);
     }
 
+    public AudioPlayer audioPlayer(){
+        return audioPlayer;
+    }
+
+
     public AudioPlayerSendHandler getSendHandler() {
         return sendHandler;
     }

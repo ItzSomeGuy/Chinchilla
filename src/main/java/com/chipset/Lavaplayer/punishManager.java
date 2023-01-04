@@ -14,49 +14,55 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class punishManager {
-    //NIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARENIGHTMARE
-    public static punishManager INSTANCE;
+    private static punishManager INSTANCE;
 
     private final Map<Long, GuildMusicManager> musicManagers;
-    private final AudioPlayerManager punishAudioPlayerManager;
+    private final AudioPlayerManager audioPlayerManager;
 
     public punishManager() {
         this.musicManagers = new HashMap<>();
-        this.punishAudioPlayerManager = new DefaultAudioPlayerManager();
+        this.audioPlayerManager = new DefaultAudioPlayerManager();
 
-        AudioSourceManagers.registerRemoteSources(this.punishAudioPlayerManager);
-        AudioSourceManagers.registerLocalSource(this.punishAudioPlayerManager);
+        AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
+        AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
     }
+
     public GuildMusicManager getMusicManager(Guild guild){
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
-            final GuildMusicManager punishGuildMusicManager = new GuildMusicManager(this.punishAudioPlayerManager);
+            final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);
 
-            guild.getAudioManager().setSendingHandler(punishGuildMusicManager.getSendHandler());
-           return punishGuildMusicManager;
+            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+
+            return guildMusicManager;
         });
     }
+
     public void punishLoadAndPlay(TextChannel channel, String track){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
-        this.punishAudioPlayerManager.loadItemOrdered(musicManager, track, new AudioLoadResultHandler() {
+        System.out.println("punishLoadAndPlay method has been called");
+        System.out.println("musicManager: " + musicManager);
+        System.out.println("audioPlayerManager: " + audioPlayerManager);
+        System.out.println(track);
+        this.audioPlayerManager.loadItemOrdered(musicManager, track, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                musicManager.scheduler.queue(track);
+                musicManager.audioPlayer().playTrack(track);
             }
-
+            //
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-
+            //
             }
 
             @Override
             public void noMatches() {
-
+                //
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-
+            //
             }
         });
     }
@@ -65,6 +71,7 @@ public class punishManager {
         if (INSTANCE == null) {
             INSTANCE = new punishManager();
         }
+
         return INSTANCE;
     }
 

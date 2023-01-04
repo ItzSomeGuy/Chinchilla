@@ -28,7 +28,7 @@ public class Punish extends SlashCommand {
 
     @Override
     public void execute(SlashCommandEvent event) {
-        String[] links = {"https://www.youtube.com/watch?v=JPbFSwMb4vc","https://www.youtube.com/watch?v=8uAEXzrpfj8","https://www.youtube.com/watch?v=C-v0kAjBapc","https://www.youtube.com/watch?v=SuqlriC3O2k"};
+        //String[] links = {"https://www.youtube.com/watch?v=JPbFSwMb4vc","https://www.youtube.com/watch?v=8uAEXzrpfj8","https://www.youtube.com/watch?v=C-v0kAjBapc","https://www.youtube.com/watch?v=SuqlriC3O2k"};
 
         String[] names = {"Literal Hell", "The Void",
                 "The Shadow Realm ", "The Firing Squad",
@@ -46,19 +46,29 @@ public class Punish extends SlashCommand {
             String randomName = names[nameArr.nextInt(names.length)];
             Guild guild = event.getGuild();
             assert guild != null;
-            Random linksArr = new Random();
-            String randomLink = links[linksArr.nextInt(links.length)];
+           // Random linksArr = new Random();
+          //  String randomLink = links[linksArr.nextInt(links.length)];
 
             AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
             manager.openAudioConnection(currentChannel);
+
             event.reply(target.getAsMention()+" was punished").setEphemeral(true).queue();
-            punishManager.getINSTANCE().punishLoadAndPlay(channel, randomLink);
+
+
+            String[] tracks = {"https://www.youtube.com/watch?v=JPbFSwMb4vc","https://www.youtube.com/watch?v=8uAEXzrpfj8","https://www.youtube.com/watch?v=C-v0kAjBapc","https://www.youtube.com/watch?v=SuqlriC3O2k"};
+
+            Random rand = new Random();
+            int index = rand.nextInt(tracks.length);
+
+            String track = tracks[index];
+
+            punishManager.getINSTANCE().punishLoadAndPlay(channel,track);
+            //System.out.println(track);
             try {
                 TimeUnit.SECONDS.sleep(4);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
 
            guild.createVoiceChannel(randomName).queue(response -> {
                guild.moveVoiceMember(target, response).queue();    //Moves target to punishment voice channel
