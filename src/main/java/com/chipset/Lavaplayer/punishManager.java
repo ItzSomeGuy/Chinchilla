@@ -19,6 +19,7 @@ public class punishManager {
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
 
+
     public punishManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
@@ -36,18 +37,18 @@ public class punishManager {
             return guildMusicManager;
         });
     }
+    public String trackurl;
 
-    public void punishLoadAndPlay(TextChannel channel, String track){
+    public void punishLoadAndPlay(TextChannel channel, String trackurl){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
-        System.out.println("punishLoadAndPlay method has been called");
-        System.out.println("musicManager: " + musicManager);
-        System.out.println("audioPlayerManager: " + audioPlayerManager);
-        System.out.println(track);
-        this.audioPlayerManager.loadItemOrdered(musicManager, track, new AudioLoadResultHandler() {
+
+
+
+        this.audioPlayerManager.loadItemOrdered(musicManager, trackurl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                musicManager.audioPlayer().playTrack(track);
+                musicManager.scheduler.queue(track);
             }
             //
             @Override
@@ -67,7 +68,7 @@ public class punishManager {
         });
     }
 
-    public static punishManager getINSTANCE() {
+    public static punishManager getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new punishManager();
         }
