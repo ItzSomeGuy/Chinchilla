@@ -40,7 +40,7 @@ public class Play extends SlashCommand {
         if (connectedChannel == null) {
             AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
             manager.openAudioConnection(vc);
-            // donovan likes feet
+            // fuckYouAaron
         }
 
         OptionMapping option = event.getOption("link");
