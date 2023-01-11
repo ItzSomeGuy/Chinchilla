@@ -27,7 +27,8 @@ public class Punish extends SlashCommand {
                 "The Shadow Realm ", "The Firing Squad",
                 "Guantanamo Bay", "6 Feet Under",
                 "The Gulag", "Back to Canada",
-                "The Crucifixion Cross", "The Midnight Facility"};       //List of possible channel names
+                "The Crucifixion Cross", "The Midnight Facility",
+                "dono's toe sucking dungeon"};       //List of possible channel names
 
         Member target = Objects.requireNonNull(event.getOption("target")).getAsMember(); //Defines the target as whoever the user selects
 

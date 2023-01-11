@@ -54,7 +54,7 @@ public class QueueCmd extends SlashCommand {
         if (trackList.size() > trackCount){
             messageAction.append("And `")
                     .append(String.valueOf(trackList.size() - trackCount))
-                    .append("` more . . .").queue();
+                    .append("` more . . .");
         }
         messageAction.queue();
     }
