@@ -7,7 +7,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class QueueCmd extends SlashCommand {
-    private long timeInMillis;
 
     public QueueCmd() {
         this.name = "queue";
@@ -35,36 +33,58 @@ public class QueueCmd extends SlashCommand {
 
         final int trackCount = Math.min(queue.size(), 20);
         final List<AudioTrack> trackList = new ArrayList<>(queue);
-        final MessageAction messageAction = channel.sendMessage("**Current Queue**\n");  //TODO: convert to StringBuilder
+        final StringBuilder sb = new StringBuilder("__**Current Queue**__\n");
 
-        for (int i = 0; i < trackCount; i++) {
-            final AudioTrack track = trackList.get(i);
-            final AudioTrackInfo info = track.getInfo();
+        final AudioTrack currentTrack = musicManager.audioPlayer.getPlayingTrack();
+        if (currentTrack != null) {
+            final AudioTrackInfo info = currentTrack.getInfo();
+            final long duration = currentTrack.getDuration();
+            final String formattedTime = formatTime(duration);
 
-            messageAction.append('#')
-                    .append(String.valueOf(i +1 ))
+            sb.append("\n")
+                    .append("**__Now Playing:__**\n ")
                     .append(" `")
                     .append(info.title)
                     .append(" by ")
                     .append(info.author)
                     .append("' ['")
-                    .append(formatTime(track.getDuration()))
+                    .append(formattedTime)
+                    .append("`] \n")
+                    .append("\n")
+                    .append("**__Coming Up:__** \n");
+
+        }
+
+        for (int i = 0; i < trackCount; i++) {
+            final AudioTrack track = trackList.get(i);
+            final AudioTrackInfo info = track.getInfo();
+            final long duration = track.getDuration();
+            final String formattedTime = formatTime(duration);
+
+                  sb.append('#')
+                    .append((i + 1))
+                    .append(" `")
+                    .append(info.title)
+                    .append(" by ")
+                    .append(info.author)
+                    .append("' ['")
+                    .append(formattedTime)
                     .append("`] \n");
         }
-        if (trackList.size() > trackCount){
-            messageAction.append("And `")
-                    .append(String.valueOf(trackList.size() - trackCount))
+        if (trackList.size() > trackCount) {
+            sb.append("And `")
+                    .append((trackList.size() - trackCount))
                     .append("` more . . .");
         }
-        messageAction.queue();
+        channel.sendMessage(sb.toString()).queue();
+        event.reply("Fetching current queue . . . ").setEphemeral(true).queue();
     }
+
     private String formatTime(long duration) {
-        final long hours = timeInMillis / TimeUnit.HOURS.toMillis(1);
-        final long minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1);
-        final long seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
-
+        final long hours = duration / TimeUnit.HOURS.toMillis(1);
+        final long minutes = duration / TimeUnit.MINUTES.toMillis(1);
+        final long seconds = duration % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-
-        //TODO: add reply
     }
+
 }
