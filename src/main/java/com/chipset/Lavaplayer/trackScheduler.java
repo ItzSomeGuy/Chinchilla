@@ -9,10 +9,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class trackScheduler extends AudioEventAdapter {
-    public final AudioPlayer player;
-    public final BlockingQueue<AudioTrack> queue;
+    public AudioPlayer player;
+    public BlockingQueue<AudioTrack> queue;
+
     public boolean repeating = false;
 
+//Test to ensure making public audio player and blockingqueue<AudioTrack> did not break normal audio playback in music code
     public trackScheduler(AudioPlayer player) {
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
