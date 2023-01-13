@@ -4,9 +4,9 @@ import com.chipset.Lavaplayer.punishManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -36,11 +36,11 @@ public class Punish extends SlashCommand {
                 "dono's toe sucking dungeon"};       //List of possible channel names
 
         Member target = Objects.requireNonNull(event.getOption("target")).getAsMember(); //Defines the target as whoever the user selects
-        VoiceChannel currentChannel = Objects.requireNonNull(Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel());
+        VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
         TextChannel channel = Objects.requireNonNull(event.getTextChannel());
 
         assert target != null; //target cannot be null
-        if (Objects.requireNonNull(target.getVoiceState()).inVoiceChannel()) { //if statement checks if target is in voice channel
+        if (Objects.requireNonNull(target.getVoiceState()).inAudioChannel()) { //if statement checks if target is in voice channel
             Random nameArr = new Random();
             String randomName = names[nameArr.nextInt(names.length)];
             Guild guild = event.getGuild();

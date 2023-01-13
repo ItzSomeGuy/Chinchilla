@@ -3,16 +3,15 @@ package com.chipset.spade;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.Category;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -54,9 +53,21 @@ public class Spade extends SlashCommand {
             // create a private hole
             guild.createCategory(event.getUser().getName()).queue(category -> {
                 // set permissions
-                category.createPermissionOverride(guild.getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
-                category.createPermissionOverride(members[0]).setAllow(Permission.ALL_PERMISSIONS).queue();
-                category.createPermissionOverride(members[1]).setAllow(Permission.VIEW_CHANNEL).queue();
+                category.getPermissionContainer().getManager().putRolePermissionOverride(
+                        guild.getPublicRole().getIdLong(), // role
+                        null, // allow
+                        List.of(Permission.VIEW_CHANNEL) // deny
+                ).queue();
+                category.getPermissionContainer().getManager().putMemberPermissionOverride(
+                        members[0].getIdLong(), // member
+                        List.of(Permission.values()), // allow
+                        null // deny
+                ).queue();
+                category.getPermissionContainer().getManager().putMemberPermissionOverride(
+                        members[1].getIdLong(), // member
+                        List.of(Permission.VIEW_CHANNEL), // allow
+                        null // deny
+                ).queue();
 
                 // create a text channel
                 guild.createTextChannel(event.getUser().getName()+"'s Rock", category).queue();
@@ -105,7 +116,7 @@ public class Spade extends SlashCommand {
         @Override
         protected void execute(SlashCommandEvent event) {
             Guild guild = event.getGuild(); assert guild != null;
-            net.dv8tion.jda.api.entities.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
+            net.dv8tion.jda.api.entities.channel.concrete.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
             assert category != null;
 
             List<GuildChannel> channels = category.getChannels();
@@ -140,18 +151,26 @@ public class Spade extends SlashCommand {
         @Override
         protected void execute(SlashCommandEvent event) {
             Guild guild = event.getGuild(); assert guild != null;
-            net.dv8tion.jda.api.entities.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
+            net.dv8tion.jda.api.entities.channel.concrete.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
             assert category != null;
 
             Member member = Objects.requireNonNull(event.getOption("user")).getAsMember(); assert member != null;
 
             // add permissions
-            category.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
+            category.getPermissionContainer().getManager().putMemberPermissionOverride(
+                    member.getIdLong(),
+                    List.of(Permission.VIEW_CHANNEL),
+                    null
+            ).queue();
 
             List<GuildChannel> channels = category.getChannels();
 
             for (GuildChannel channel : channels) {
-                channel.createPermissionOverride(member).setAllow(Permission.VIEW_CHANNEL).queue();
+                category.getPermissionContainer().getManager().putMemberPermissionOverride(
+                        member.getIdLong(),
+                        List.of(Permission.VIEW_CHANNEL),
+                        null
+                ).queue();
             }
 
             event.reply("Added "+member.getEffectiveName()).setEphemeral(true).queue();
@@ -171,18 +190,18 @@ public class Spade extends SlashCommand {
         @Override
         protected void execute(SlashCommandEvent event) {
             Guild guild = event.getGuild(); assert guild != null;
-            net.dv8tion.jda.api.entities.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
+            net.dv8tion.jda.api.entities.channel.concrete.Category category = guild.getCategoriesByName(event.getUser().getName(), true).get(0);
             assert category != null;
 
             Member member = Objects.requireNonNull(event.getOption("user")).getAsMember(); assert member != null;
 
             // remove permissions
-            Objects.requireNonNull(category.getPermissionOverride(member)).delete().queueAfter(2L, TimeUnit.SECONDS);
+            category.getPermissionContainer().getManager().removePermissionOverride(member.getIdLong()).queueAfter(2L, TimeUnit.SECONDS);
 
             List<GuildChannel> channels = category.getChannels();
 
             for (GuildChannel channel : channels) {
-                Objects.requireNonNull(channel.getPermissionOverride(member)).delete().queueAfter(2L, TimeUnit.SECONDS);
+                category.getPermissionContainer().getManager().removePermissionOverride(member.getIdLong()).queueAfter(2L, TimeUnit.SECONDS);
             }
 
             event.reply("Removed "+member.getEffectiveName()).setEphemeral(true).queue();

@@ -4,12 +4,23 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -28,103 +39,65 @@ public class LFG extends SlashCommand {
         this.help = "looking for games";
 
         this.children = new SlashCommand[]{
-                new Add(),
-                new Remove()
+                new Birth(),
+                new Abort()
         };
     }
 
     @Override
     protected void execute(SlashCommandEvent event) {}
 
-    private static class Add extends SlashCommand {
-        public Add() {
-            this.name = "add";
-            this.help = "create a new LFG";
-
-            // sub command /lfg add <name>
-            this.options = Collections.singletonList(
-                    new OptionData(OptionType.STRING, "name", "the name of the LFG")
-                            .setRequired(true));
+    private static class Birth extends SlashCommand {
+        public Birth() {
+            this.name = "birth";
+            this.help = "you get your partner preggo with your new LFG. Sadly your partner was lost in the process...";
         }
 
         @Override
         protected void execute(SlashCommandEvent event) {
             /*
-             * create LFG channel
-             * create LFG role
-             * post LFG join message
+             * create modal
+             * use data from modal to create LFG post
+             * add parent to post
              */
-            OptionMapping target = event.getOption("name");
-            assert target != null;
-            String name = target.getAsString();
 
-            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(782766243911827456L);
-            assert lfgBoard != null;
-
-            User creator = event.getUser();
-
-            Guild guild = event.getGuild();
-            assert guild != null;
-
-            guild.createRole().setName(name).queue(role -> { // create LFG role
-                guild.createTextChannel(name, guild.getCategoryById(782766156682494002L))
-                        .addPermissionOverride(guild.getPublicRole(), null, EnumSet.of(Permission.VIEW_CHANNEL))
-                        .addPermissionOverride(role, EnumSet.of(Permission.VIEW_CHANNEL), null)
-                        .queue(textChannel -> { // create LFG channel
-                            lfgBoard.sendMessage("a new LFG has been created for " + name + " react with \uD83E\uDD19 to join").queue(message -> { // create LFG board message
-                                message.addReaction("\uD83E\uDD19").queue();
-
-                                textChannel.getManager().setTopic(message.getId()).queue(); // put board message id in lfg channel
-                            });
-                        });
-            });
-
-            event.reply("created "+name).setEphemeral(true).queue();
+            TextInput game = TextInput.create("game", "Game", TextInputStyle.SHORT)
+                    .setPlaceholder("name of the game")
+                    .setRequiredRange(1, 30)
+                    .build();
+            TextInput desc = TextInput.create("desc", "Description", TextInputStyle.PARAGRAPH)
+                    .setPlaceholder("no one is going to want to play it, but you might as well try to sell them on it")
+                    .setRequiredRange(1, 2000)
+                    .build();
+            Modal modal = Modal.create("lfg_create", "New LFG")
+                    .addActionRows(ActionRow.of(game), ActionRow.of(desc))
+                    .build();
+            event.replyModal(modal).queue();
         }
     }
-
-    private static class Remove extends SlashCommand {
-        public Remove() {
-            this.name = "remove";
-            this.help = "removes a LFG";
-
-            // sub command /lfg remove <name>
-            this.options = Collections.singletonList(
-                    new OptionData(OptionType.STRING, "name", "the name of the LFG")
-                            .setRequired(true));
+    private static class Abort extends SlashCommand {
+        public Abort() {
+            this.name = "abort";
+            this.help = "you better grab your coat hanger..";
         }
 
         @Override
         protected void execute(SlashCommandEvent event) {
-            /*
-             * delete LFG channel
-             * delete LFG role
-             * delete LFG join message
-             */
-            OptionMapping target = event.getOption("name");
-            assert target != null;
-            String name = target.getAsString();
+            ForumChannel lfg_board = Objects.requireNonNull(event.getGuild()).getForumChannelById(1062841778270642308L);
 
-            TextChannel lfgBoard = Objects.requireNonNull(event.getGuild()).getTextChannelById(782766243911827456L);
-            assert lfgBoard != null;
+            assert lfg_board != null;
+            Collection<ThreadChannel> lfg_list = lfg_board.getThreadChannels();
 
-            Guild guild = event.getGuild();
-            assert guild != null;
+            EntitySelectMenu menu = EntitySelectMenu.create("lfg_abort", EntitySelectMenu.SelectTarget.CHANNEL)
+                    .setPlaceholder("who gets the coat hanger tonight?")
+                    .setChannelTypes(ChannelType.GUILD_PUBLIC_THREAD)
+                    .setRequiredRange(1, 1)
+                    .build();
 
-            // get LFG role
-            Role role = guild.getRolesByName(name, true).get(0);
-            // get LFG channel
-            TextChannel tc = guild.getTextChannelsByName(name, true).get(0);
-            // get LFG board message
-            long topic = Long.parseLong(Objects.requireNonNull(tc.getTopic()));
-
-            lfgBoard.retrieveMessageById(topic).queue(message -> message.delete().queue());
-
-            role.delete().queue();
-            tc.delete().queue();
-            tc.delete().queue();
-
-            event.reply("removed "+name).setEphemeral(true).queue();
+            event.reply("What LFG would you like to abort?")
+                    .addActionRow(menu)
+                    .setEphemeral(true)
+                    .queue();
         }
     }
 }

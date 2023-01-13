@@ -1,8 +1,8 @@
 package com.chipset.slash_commands;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -22,7 +22,7 @@ public class Join extends SlashCommand {
         OptionMapping target = event.getOption("target");
         assert target != null;
 
-        VoiceChannel vc = (VoiceChannel) target.getAsGuildChannel();
+        VoiceChannel vc = target.getAsChannel().asVoiceChannel();
 
         AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
         manager.openAudioConnection(vc);

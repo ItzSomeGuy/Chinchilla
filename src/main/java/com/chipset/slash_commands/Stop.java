@@ -3,8 +3,8 @@ package com.chipset.slash_commands;
 import com.chipset.Lavaplayer.GuildMusicManager;
 import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.VoiceChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class Stop extends SlashCommand {
 
     @Override
     protected void execute(SlashCommandEvent event) {
-        VoiceChannel vc = Objects.requireNonNull(Objects.requireNonNull(event.getMember()).getVoiceState()).getChannel();
+        VoiceChannel vc = event.getMember().getVoiceState().getChannel().asVoiceChannel();
 
         //check to see if bot is in voice channel goes here
 

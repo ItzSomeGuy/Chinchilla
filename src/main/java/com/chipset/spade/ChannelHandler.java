@@ -2,9 +2,10 @@ package com.chipset.spade;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,11 @@ public class ChannelHandler extends ListenerAdapter {
             // create a private hole
             guild.createCategory(user.getName()).queue(category -> {
                 // set permissions
-                category.createPermissionOverride(guild.getPublicRole()).setDeny(Permission.VIEW_CHANNEL).queue();
+                category.getPermissionContainer().getManager().putRolePermissionOverride(
+                        guild.getPublicRole().getIdLong(),
+                        null,
+                        List.of(Permission.VIEW_CHANNEL)
+                ).queue();
 
                 // create a text channel
                 guild.createTextChannel(user.getName()+"'s Rock", category).queue();

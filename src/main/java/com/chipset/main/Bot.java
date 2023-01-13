@@ -1,6 +1,8 @@
 package com.chipset.main;
 
 
+import com.chipset.context_menu.Avatar;
+import com.chipset.context_menu.Gift;
 import com.chipset.spade.ChannelHandler;
 import com.chipset.spade.Spade;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -36,7 +38,7 @@ public class Bot {
         // add them to the commandClient
         Set<Class<? extends SlashCommand>> commands = findCommands("com.chipset.slash_commands");
         for (Class<? extends SlashCommand> command : commands) {
-            if (!command.getSimpleName().equals("Add") && !command.getSimpleName().equals("Remove")) {
+            if (!command.getSimpleName().equals("Abort") && !command.getSimpleName().equals("Birth")) {
                 SlashCommand temp = command.getConstructor().newInstance();
                 commandClient.addSlashCommand(temp);
             }
@@ -44,6 +46,8 @@ public class Bot {
 
         // add the spade commands
         commandClient.addSlashCommand(new Spade());
+
+        commandClient.addContextMenus(new Avatar(), new Gift());
 
         commandClient.setOwnerId(192370343510409216L);
         commandClient.setActivity(Activity.listening("sick beats"));
@@ -58,7 +62,9 @@ public class Bot {
                 client,
                 eventWaiter,
                 new ReadyListener(),
-                new ChannelHandler()
+                new ChannelHandler(),
+                new ModalListener(),
+                new MenuListener()
         );
 
         jda = builder.build();

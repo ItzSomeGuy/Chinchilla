@@ -4,7 +4,7 @@ import com.chipset.Lavaplayer.GuildMusicManager;
 import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 
 import java.util.Objects;
 

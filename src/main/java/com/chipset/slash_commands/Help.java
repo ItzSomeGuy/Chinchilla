@@ -1,7 +1,7 @@
 package com.chipset.slash_commands;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ public class Help extends SlashCommand {
                 msg.append(command.getName()).append(" - ").append(command.getDescription()).append("\n");
             }
 
-            event.reply(msg.toString()).queue();
+            event.reply(msg.toString()).setEphemeral(true).queue();
         });
     }
 }

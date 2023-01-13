@@ -3,16 +3,18 @@ package com.chipset.slash_commands;
 import com.chipset.main.Bot;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Ban extends SlashCommand {
 
@@ -48,7 +50,7 @@ public class Ban extends SlashCommand {
                 )
                 .setEphemeral(true)
                 .queue(message -> Bot.getEventWaiter().waitForEvent(
-                        ButtonClickEvent.class,
+                        ButtonInteractionEvent.class,
                         e -> {
                             // Ignore Bots... again
                             if(e.getUser().isBot())
@@ -61,9 +63,9 @@ public class Ban extends SlashCommand {
 
                             if (selection.equals("ban")) {
                                 if (reason != null) {
-                                    target.ban(0, reason).queue();
+                                    target.ban(0, TimeUnit.DAYS).reason(reason).queue();
                                 } else {
-                                    target.ban(0).queue();
+                                    target.ban(0, TimeUnit.DAYS).queue();
                                 }
                                 e.editComponents().setActionRow(
                                         Button.danger("ban", "banned").asDisabled()

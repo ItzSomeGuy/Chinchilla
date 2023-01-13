@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,14 +45,9 @@ public class PlayerManager {
             public void trackLoaded(AudioTrack track) {
                 musicManager.scheduler.queue(track);
 
-                // if track.getInfo().title is LINK RUNNING, then print it
+                // if track.getInfo().title is not LINK RUNNING, then print it
                 if (!track.getInfo().title.equals("LINK RUNNING")) {
-                    channel.sendMessage("`")
-                            .append(track.getInfo().title)
-                            .append("` by `")
-                            .append(track.getInfo().author)
-                            .append('`')
-                            .queue();
+                    channel.sendMessage("`"+track.getInfo().title+"` by `"+track.getInfo().author+"`").queue();
                 }
             }
 
@@ -62,10 +57,7 @@ public class PlayerManager {
                     musicManager.scheduler.queue(track);
                 }
 
-                channel.sendMessage("`")
-                        .append(playlist.getName())
-                        .append("`")
-                        .queue();
+                channel.sendMessage("`"+playlist.getName()+"`").queue();
             }
 
             @Override

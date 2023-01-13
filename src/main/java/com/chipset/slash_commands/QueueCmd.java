@@ -5,8 +5,8 @@ import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +76,7 @@ public class QueueCmd extends SlashCommand {
                     .append((trackList.size() - trackCount))
                     .append("` more . . .");
         }
-        channel.sendMessage(sb.toString()).queue();
-        event.reply("Fetching current queue . . . ").setEphemeral(true).queue();
+        event.reply(sb.toString()).queue();
     }
 
     private String formatTime(long duration) {

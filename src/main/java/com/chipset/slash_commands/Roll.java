@@ -1,7 +1,7 @@
 package com.chipset.slash_commands;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
@@ -28,6 +28,10 @@ public class Roll extends SlashCommand {
         SecureRandom rand = new SecureRandom(); // more random but slower
 
         String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
+
+        if (calc.startsWith("d") ) {
+            calc = "1"+calc;
+        }
 
         String[] split = calc.split("d");
 
