@@ -2,6 +2,7 @@ package com.chipset.main;
 
 
 import com.chipset.context_menu.Avatar;
+import com.chipset.context_menu.Reminder;
 import com.chipset.spade.ChannelHandler;
 import com.chipset.spade.Spade;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -46,7 +47,7 @@ public class Bot {
         // add the spade commands
         commandClient.addSlashCommand(new Spade());
 
-        commandClient.addContextMenus(new Avatar());
+        commandClient.addContextMenus(new Avatar(), new Reminder());
 
         commandClient.setOwnerId(192370343510409216L);
         commandClient.setActivity(Activity.listening("sick beats"));
