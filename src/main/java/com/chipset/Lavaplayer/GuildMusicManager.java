@@ -26,7 +26,9 @@ public class GuildMusicManager {
         return sendHandler;
     }
 
-    public void setVolume(int volume) { audioPlayer.setVolume(volume); }
+    public void setVolume(int volume) { this.audioPlayer.setVolume(volume); }
+
+    public int getVolume() { return this.audioPlayer.getVolume(); }
 
     public boolean isPlaying() { return audioPlayer.getPlayingTrack() != null; }
 }

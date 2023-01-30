@@ -2,10 +2,9 @@ package com.chipset.slash_commands;
 
 import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.Member;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -28,27 +27,22 @@ public class Play extends SlashCommand {
 
     @Override
     public void execute(SlashCommandEvent event) {
-        //gets voice channel of user who ran the command
+        // gets voice channel of user who ran the command
         VoiceChannel vc = event.getMember().getVoiceState().getChannel().asVoiceChannel();
-        if (vc == null) {
-            event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();
-        }
-
-        Member self = Objects.requireNonNull(event.getGuild()).getSelfMember();
-        VoiceChannel connectedChannel = self.getVoiceState().getChannel().asVoiceChannel();
-
-        if (connectedChannel == null) {
+        if (vc != null) {
             AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
             manager.openAudioConnection(vc);
             // dono likes piss covered toes
+
+            OptionMapping option = event.getOption("link");
+            assert option != null;
+            String link  = option.getAsString();
+            TextChannel channel =  event.getTextChannel();
+            PlayerManager.getInstance().loadAndPlay(channel, link);
+
+            event.reply("adding to queue:").queue();
+        } else {
+            event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();
         }
-
-        OptionMapping option = event.getOption("link");
-        assert option != null;
-        String link  = option.getAsString();
-        TextChannel channel =  event.getTextChannel();
-        PlayerManager.getInstance().loadAndPlay(channel, link);
-
-        event.reply("adding to queue:").queue();
     }
 }

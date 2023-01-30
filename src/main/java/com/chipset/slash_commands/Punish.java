@@ -2,11 +2,11 @@ package com.chipset.slash_commands;
 
 import com.chipset.Lavaplayer.punishManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -66,12 +66,6 @@ public class Punish extends SlashCommand {
                }
 
                guild.moveVoiceMember(target, response).queue();    //Moves target to punishment voice channel
-
-               try {
-                   TimeUnit.SECONDS.sleep(6);
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
 
                manager.closeAudioConnection();
 

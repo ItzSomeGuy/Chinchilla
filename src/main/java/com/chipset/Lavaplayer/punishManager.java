@@ -42,8 +42,7 @@ public class punishManager {
     public void punishLoadAndPlay(TextChannel channel, String trackurl){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
-
-
+        musicManager.setVolume(150);
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackurl, new AudioLoadResultHandler() {
             @Override
