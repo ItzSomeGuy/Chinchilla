@@ -31,4 +31,3 @@ public class Join extends SlashCommand {
     }
 
 }
-

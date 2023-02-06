@@ -37,7 +37,6 @@ public class punishManager {
             return guildMusicManager;
         });
     }
-    public String trackurl;
 
     public void punishLoadAndPlay(TextChannel channel, String trackurl){
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
