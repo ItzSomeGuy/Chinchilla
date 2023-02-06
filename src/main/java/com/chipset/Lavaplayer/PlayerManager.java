@@ -10,6 +10,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean shuffle) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         musicManager.setVolume(20);
@@ -49,17 +50,19 @@ public class PlayerManager {
 
                 // if track.getInfo().title is not LINK RUNNING, then print it
                 if (!track.getInfo().title.equals("LINK RUNNING")) {
-                    channel.sendMessage("`"+track.getInfo().title+"` by `"+track.getInfo().author+"`").queue();
+                    channel.sendMessage(""+track.getInfo().title+" by "+track.getInfo().author+"").queue();
                 }
             }
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
+                if (shuffle) { Collections.shuffle(playlist.getTracks()); }
+
                 for (AudioTrack track : playlist.getTracks()) {
                     musicManager.scheduler.queue(track);
                 }
 
-                channel.sendMessage("`"+playlist.getName()+"`").queue();
+                channel.sendMessage(""+playlist.getName()+"").queue();
             }
 
             @Override
@@ -73,6 +76,36 @@ public class PlayerManager {
             }
         });
     }
+
+
+    public void punishLoadAndPlay(TextChannel channel, String trackurl) {
+        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
+
+        musicManager.setVolume(150);
+
+        this.audioPlayerManager.loadItemOrdered(musicManager, trackurl, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack track) {
+                musicManager.scheduler.queue(track);
+            }
+            //
+            @Override
+            public void playlistLoaded(AudioPlaylist playlist) {
+                //
+            }
+
+            @Override
+            public void noMatches() {
+                //
+            }
+
+            @Override
+            public void loadFailed(FriendlyException exception) {
+                //
+            }
+        });
+    }
+
 
     public static PlayerManager getInstance() {
         if (INSTANCE == null) {

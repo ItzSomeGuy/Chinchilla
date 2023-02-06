@@ -1,6 +1,6 @@
 package com.chipset.slash_commands;
 
-import com.chipset.Lavaplayer.punishManager;
+import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.Guild;
@@ -55,7 +55,7 @@ public class Punish extends SlashCommand {
             int index = rand.nextInt(tracks.length);
             String trackurl = tracks[index];
 
-            punishManager.getInstance().punishLoadAndPlay(channel, trackurl);
+            PlayerManager.getInstance().punishLoadAndPlay(channel, trackurl);
 
            guild.createVoiceChannel(randomName).queue(response -> {
 
