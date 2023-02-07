@@ -78,7 +78,7 @@ public class PlayerManager {
     }
 
 
-    public void punishLoadAndPlay(TextChannel channel, String trackurl) {
+    public void silentLoadAndPlay(TextChannel channel, String trackurl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         musicManager.setVolume(150);
