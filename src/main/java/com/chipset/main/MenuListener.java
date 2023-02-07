@@ -1,13 +1,18 @@
 package com.chipset.main;
 
+import com.chipset.Lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +48,7 @@ public class MenuListener extends ListenerAdapter {
 
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
+        // Menu:Message:Reminder
         if (Objects.requireNonNull(event.getInteraction().getSelectMenu().getId()).substring(0,9).equals("reminder-")) {
             String input = event.getInteraction().getValues().get(0);
             String id = event.getInteraction().getSelectMenu().getId().substring(9);
@@ -109,6 +115,33 @@ public class MenuListener extends ListenerAdapter {
                 });
             };
             executor.schedule(task, delay, delayUnit);
+        // Slash:LoFi
+        } else if (event.getInteraction().getSelectMenu().getId().equals("menu:vibeCheck")) {
+            String vibe = event.getInteraction().getValues().get(0);
+
+            event.getInteraction().editMessage("enjoy the "+ vibe +" vibes!").queue();
+            event.getInteraction().editSelectMenu(null).queue();
+
+            VoiceChannel vc = event.getMember().getVoiceState().getChannel().asVoiceChannel();
+            TextChannel tc = event.getChannel().asTextChannel();
+
+            AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
+            manager.openAudioConnection(vc);
+
+            String link = null;
+
+            switch (vibe) {
+                case "relax":
+                case "study":
+                    link = "https://www.youtube.com/watch?v=jfKfPfyJRdk";
+                    break;
+                case "sleep":
+                case "chill":
+                    link = "https://www.youtube.com/watch?v=rUxyKA_-grg";
+                    break;
+            }
+
+            PlayerManager.getInstance().loadAndPlay(tc, link, false, true, 20);
         }
     }
 }

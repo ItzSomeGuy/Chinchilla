@@ -21,6 +21,6 @@ public class Resume extends SlashCommand {
 
         audioPlayer.setPaused(false);
 
-        event.reply("Resumed").queue();
+        event.reply("Resumed").setEphemeral(true).queue();
     }
 }

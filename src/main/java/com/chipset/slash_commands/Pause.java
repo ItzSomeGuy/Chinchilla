@@ -21,6 +21,6 @@ public class Pause extends SlashCommand {
 
         audioPlayer.setPaused(true);
 
-        event.reply("Paused").queue();
+        event.reply("Paused").setEphemeral(true).queue();
     }
 }

@@ -27,6 +27,6 @@ public class Stop extends SlashCommand {
             musicManager.scheduler.player.stopTrack();
             musicManager.scheduler.queue.clear();
         }
-        event.reply("Stopping").queue();
+        event.reply("Stopping").setEphemeral(true).queue();
     }
 }

@@ -55,7 +55,7 @@ public class Punish extends SlashCommand {
             int index = rand.nextInt(tracks.length);
             String trackurl = tracks[index];
 
-            PlayerManager.getInstance().punishLoadAndPlay(channel, trackurl);
+            PlayerManager.getInstance().loadAndPlay(channel, trackurl, false, true, 120);
 
            guild.createVoiceChannel(randomName).queue(response -> {
 

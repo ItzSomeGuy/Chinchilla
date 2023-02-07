@@ -44,7 +44,7 @@ public class Skip extends SlashCommand {
             }
         } if (event.getOption("song") == null) {
             musicManager.scheduler.nextTrack();
-            event.reply("Skipped current song.").queue();
+            event.reply("Skipped current song.").setEphemeral(true).queue();
         }
     }
 }

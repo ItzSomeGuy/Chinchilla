@@ -87,7 +87,7 @@ public class QueueCmd extends SlashCommand {
                         .append((trackList.size() - trackCount))
                         .append("` more . . .");
             }
-            event.reply(sb.toString()).queue();
+            event.reply(sb.toString()).setEphemeral(true).queue();
         }
 
     }
