@@ -141,7 +141,7 @@ public class MenuListener extends ListenerAdapter {
                     break;
             }
 
-            PlayerManager.getInstance().silentLoadAndPlay(tc, link);
+            PlayerManager.getInstance().loadAndPlay(tc, link, false, true, 20);
         }
     }
 }

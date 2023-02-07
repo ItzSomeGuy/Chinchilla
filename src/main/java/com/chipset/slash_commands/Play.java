@@ -54,7 +54,7 @@ public class Play extends SlashCommand {
             assert option != null;
             String link = option.getAsString();
             TextChannel channel = event.getTextChannel();
-            PlayerManager.getInstance().loadAndPlay(channel, link, shuffle);
+            PlayerManager.getInstance().loadAndPlay(channel, link, shuffle, false, 20);
             event.reply("adding to queue:").setEphemeral(true).queue();
         } else {
             event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();

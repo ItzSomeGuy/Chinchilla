@@ -38,20 +38,15 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl, boolean shuffle) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean shuffle, boolean silent, int volume) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
-        musicManager.setVolume(20);
+        musicManager.setVolume(volume);
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 musicManager.scheduler.queue(track);
-
-                // if track.getInfo().title is not LINK RUNNING, then print it
-                if (!track.getInfo().title.equals("LINK RUNNING")) {
-                    channel.sendMessage(""+track.getInfo().title+" by "+track.getInfo().author+"").queue();
-                }
             }
 
             @Override
@@ -62,36 +57,7 @@ public class PlayerManager {
                     musicManager.scheduler.queue(track);
                 }
 
-                channel.sendMessage(""+playlist.getName()+"").queue();
-            }
-
-            @Override
-            public void noMatches() {
-                //
-            }
-
-            @Override
-            public void loadFailed(FriendlyException exception) {
-                //
-            }
-        });
-    }
-
-
-    public void silentLoadAndPlay(TextChannel channel, String trackurl) {
-        final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
-
-        musicManager.setVolume(150);
-
-        this.audioPlayerManager.loadItemOrdered(musicManager, trackurl, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-                musicManager.scheduler.queue(track);
-            }
-            //
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) {
-                //
+                if (!silent) { channel.sendMessage(""+playlist.getName()+"").queue(); }
             }
 
             @Override
