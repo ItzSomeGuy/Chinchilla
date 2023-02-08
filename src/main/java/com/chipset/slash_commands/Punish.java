@@ -33,7 +33,13 @@ public class Punish extends SlashCommand {
                 "Guantanamo Bay", "6 Feet Under",
                 "The Gulag", "Back to Canada",
                 "The Crucifixion Cross", "The Midnight Facility",
-                "dono's toe sucking dungeon"};       //List of possible channel names
+                "dono's toe sucking dungeon",
+                "J's Furry Fun-house", "K's Horse Ranch",
+                "The Inside of J's Thiccc Cheeks", "An Uncomfortably Warm Room",
+                "A Pile of Hungry Hamsters Just Nibbling on You", "A Room Full of Forks Just Sticking Up on the Ground",
+                "Nicole's Trypophobia Terrace", "Between the Slices of Laura's Sandwich",
+                "You're Gay/Not Gay Now. Boo. Scary.", "Charlie's Dog is Taking Chunks Out of Your Leg"
+        };      //List of possible channel names
 
         Member target = Objects.requireNonNull(event.getOption("target")).getAsMember(); //Defines the target as whoever the user selects
         VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
@@ -50,7 +56,13 @@ public class Punish extends SlashCommand {
             manager.openAudioConnection(currentChannel);
             event.reply(target.getAsMention()+" was punished").setEphemeral(true).queue();
 
-            String[] tracks = {"https://www.youtube.com/watch?v=JPbFSwMb4vc","https://www.youtube.com/watch?v=8uAEXzrpfj8","https://www.youtube.com/watch?v=C-v0kAjBapc","https://www.youtube.com/watch?v=SuqlriC3O2k"};
+            String[] tracks = {
+                    "https://www.youtube.com/watch?v=JPbFSwMb4vc",
+                    "https://www.youtube.com/watch?v=8uAEXzrpfj8",
+                    "https://www.youtube.com/watch?v=C-v0kAjBapc",
+                    "https://www.youtube.com/watch?v=SuqlriC3O2k"
+            };
+
             Random rand = new Random();
             int index = rand.nextInt(tracks.length);
             String trackurl = tracks[index];
