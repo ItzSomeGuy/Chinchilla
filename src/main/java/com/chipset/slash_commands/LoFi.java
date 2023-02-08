@@ -15,10 +15,10 @@ public class LoFi extends SlashCommand {
         StringSelectMenu vibeCheck = StringSelectMenu.create("menu:vibeCheck")
                 .setPlaceholder("horny vibes are currently out of stock")
                 .setRequiredRange(1,1)
-                .addOption("relax", "relax")
+                .addOption("relaxing", "relax")
                 .addOption("chill", "chill")
-                .addOption("study", "study")
-                .addOption("sleep", "sleep")
+                .addOption("studying", "study")
+                .addOption("sleepy", "sleep")
                 .build();
 
         event.reply("What's the vibe?")
