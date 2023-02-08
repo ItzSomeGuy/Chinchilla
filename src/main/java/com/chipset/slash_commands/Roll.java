@@ -42,7 +42,7 @@ public class Roll extends SlashCommand {
         String modString = "";
         try {
             mod = (int) Objects.requireNonNull(event.getOption("mod")).getAsLong();
-            modString = mod > 0 ? "+"+mod : Integer.toString(mod);
+            modString = mod >= 0 ? "+"+mod : Integer.toString(mod);
         } catch (NullPointerException e) {
             // do nothing
         }

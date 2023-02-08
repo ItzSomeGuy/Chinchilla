@@ -1,5 +1,6 @@
 package com.chipset.slash_commands;
 
+import com.chipset.Lavaplayer.GuildMusicManager;
 import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
@@ -45,6 +46,7 @@ public class Play extends SlashCommand {
             OptionMapping option = event.getOption("link");
             OptionMapping option2 = event.getOption("shuffle");
             boolean shuffle;
+
             try {
                 shuffle = Objects.requireNonNull(event.getOption("shuffle")).getAsBoolean();
             } catch (NullPointerException e) {
@@ -54,8 +56,16 @@ public class Play extends SlashCommand {
             assert option != null;
             String link = option.getAsString();
             TextChannel channel = event.getTextChannel();
-            PlayerManager.getInstance().loadAndPlay(channel, link, shuffle, false, 20);
-            event.reply("adding to queue:").setEphemeral(true).queue();
+
+            PlayerManager.getInstance().loadAndPlay(channel, link, shuffle, 20);
+
+            final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
+
+            try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+
+            String songName = musicManager.audioPlayer.getPlayingTrack().getInfo().title;
+
+            event.reply("adding " + songName).setEphemeral(true).queue();
         } else {
             event.reply("Please join a voice channel before running this command").setEphemeral(true).queue();
         }

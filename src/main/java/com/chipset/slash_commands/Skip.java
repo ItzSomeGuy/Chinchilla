@@ -35,10 +35,9 @@ public class Skip extends SlashCommand {
             event.reply("There's nothing playing right now.").setEphemeral(true).queue();
         } else if (event.getOption("song") != null) {
             if(trackScheduler.skipTo(n)){
-                for (int i = 2; i < n-1; i++) {
-                }
+                for (int i = 2; i < n-1; i++) {}
                 musicManager.scheduler.nextTrack();
-                event.reply("Skipped to song " + n).queue();
+                event.reply("Skipped to " + musicManager.audioPlayer.getPlayingTrack().getInfo().title).setEphemeral(true).queue();
             } else {
                 event.reply("Could not skip to song " + n + ". The number must be between 1 and the size of the visible queue.").queue();
             }

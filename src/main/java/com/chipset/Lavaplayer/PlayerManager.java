@@ -38,7 +38,7 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl, boolean shuffle, boolean silent, int volume) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, boolean shuffle, int volume) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
 
         musicManager.setVolume(volume);
@@ -56,8 +56,6 @@ public class PlayerManager {
                 for (AudioTrack track : playlist.getTracks()) {
                     musicManager.scheduler.queue(track);
                 }
-
-                if (!silent) { channel.sendMessage(""+playlist.getName()+"").queue(); }
             }
 
             @Override

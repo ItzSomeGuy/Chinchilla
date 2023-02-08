@@ -1,7 +1,6 @@
 package com.chipset.main;
 
 import com.chipset.Lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
@@ -11,10 +10,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.component.EntitySelectInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.managers.AudioManager;
-import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -141,7 +137,7 @@ public class MenuListener extends ListenerAdapter {
                     break;
             }
 
-            PlayerManager.getInstance().loadAndPlay(tc, link, false, true, 20);
+            PlayerManager.getInstance().loadAndPlay(tc, link, false, 20);
         }
     }
 }

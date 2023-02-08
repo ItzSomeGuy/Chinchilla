@@ -28,12 +28,13 @@ public class Punish extends SlashCommand {
     @Override
     public void execute(SlashCommandEvent event) {
 
+        //List of possible channel names
         String[] names = {"Literal Hell", "The Void",
                 "The Shadow Realm ", "The Firing Squad",
                 "Guantanamo Bay", "6 Feet Under",
                 "The Gulag", "Back to Canada",
                 "The Crucifixion Cross", "The Midnight Facility",
-                "dono's toe sucking dungeon"};       //List of possible channel names
+                "dono's toe sucking dungeon"};
 
         Member target = Objects.requireNonNull(event.getOption("target")).getAsMember(); //Defines the target as whoever the user selects
         VoiceChannel currentChannel = event.getMember().getVoiceState().getChannel().asVoiceChannel();
@@ -50,12 +51,17 @@ public class Punish extends SlashCommand {
             manager.openAudioConnection(currentChannel);
             event.reply(target.getAsMention()+" was punished").setEphemeral(true).queue();
 
-            String[] tracks = {"https://www.youtube.com/watch?v=JPbFSwMb4vc","https://www.youtube.com/watch?v=8uAEXzrpfj8","https://www.youtube.com/watch?v=C-v0kAjBapc","https://www.youtube.com/watch?v=SuqlriC3O2k"};
+            String[] tracks = {"https://www.youtube.com/watch?v=JPbFSwMb4vc",
+                    "https://www.youtube.com/watch?v=8uAEXzrpfj8",
+                    "https://www.youtube.com/watch?v=C-v0kAjBapc",
+                    "https://www.youtube.com/watch?v=SuqlriC3O2k"
+            };
+
             Random rand = new Random();
             int index = rand.nextInt(tracks.length);
             String trackurl = tracks[index];
 
-            PlayerManager.getInstance().loadAndPlay(channel, trackurl, false, true, 120);
+            PlayerManager.getInstance().loadAndPlay(channel, trackurl, false, 120);
 
            guild.createVoiceChannel(randomName).queue(response -> {
 
