@@ -1,4 +1,4 @@
-package com.chipset.main;
+package com.chipset.Listeners;
 
 import com.chipset.Lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.MessageEmbed;

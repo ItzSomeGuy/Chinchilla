@@ -1,4 +1,4 @@
-package com.chipset.slash_commands;
+package com.chipset.slash_commands.DnD;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
@@ -29,8 +29,10 @@ public class Roll extends SlashCommand {
 
         String calc = Objects.requireNonNull(event.getOption("calc")).getAsString();
 
+        boolean multi = true;
         if (calc.startsWith("d") ) {
             calc = "1"+calc;
+            multi = false;
         }
 
         String[] split = calc.split("d");
@@ -62,7 +64,10 @@ public class Roll extends SlashCommand {
         rolls = rolls.replaceAll(" 1 ", " **1** ");
         rolls = rolls.replaceAll(String.valueOf(sides), "**"+sides+"**");
 
-        String msg = String.format("🎲 %sd%s%s %n", count, sides, modString) + rolls + String.format("\n**total:** %d", total);
+        String msg = String.format("🎲 %sd%s%s %n", count, sides, modString) + rolls;
+        if (multi) {
+            msg += String.format("\n**total:** %d", total);
+        }
 
         event.reply(msg).queue();
     }

@@ -1,4 +1,4 @@
-package com.chipset.main;
+package com.chipset.Listeners;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.session.ReadyEvent;

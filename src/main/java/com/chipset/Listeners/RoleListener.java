@@ -1,4 +1,4 @@
-package com.chipset.main;
+package com.chipset.Listeners;
 
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

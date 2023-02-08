@@ -1,4 +1,4 @@
-package com.chipset.main;
+package com.chipset.Listeners;
 
 import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;

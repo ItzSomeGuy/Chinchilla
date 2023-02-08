@@ -1,4 +1,4 @@
-package com.chipset.slash_commands;
+package com.chipset.slash_commands.DnD;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
