@@ -29,12 +29,12 @@ public class trackScheduler extends AudioEventAdapter {
     }
     public static boolean skipTo(int n){
         List<AudioTrack> list = new ArrayList<>(queue);
-        if(n >= list.size()){
+        if(n >= 21){
             return false;
         }
         queue.clear();
-        queue.addAll(list.subList(n - 1, list.size()));
-        queue.addAll(list.subList(0, n - 1));
+        queue.addAll(list.subList(n-1, list.size()));
+        queue.addAll(list.subList(0, n-1));
         return true;
     }
 
