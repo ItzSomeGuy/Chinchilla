@@ -5,6 +5,8 @@ import com.chipset.Listeners.MenuListener;
 import com.chipset.Listeners.ModalListener;
 import com.chipset.Listeners.ReadyListener;
 import com.chipset.context_menu.Avatar;
+import com.chipset.context_menu.Gift;
+import com.chipset.context_menu.LengthLitigator;
 import com.chipset.context_menu.Reminder;
 import com.chipset.spade.ChannelHandler;
 import com.chipset.spade.Spade;
@@ -49,7 +51,12 @@ public class Bot {
 
         // add the spade commands
         commandClient.addSlashCommand(new Spade());
-        commandClient.addContextMenus(new Avatar(), new Reminder());
+        commandClient.addContextMenus(
+                new Avatar(),
+                new Reminder(),
+//                new Gift(),
+                new LengthLitigator()
+        );
 
         commandClient.setOwnerId(192370343510409216L);
         commandClient.setActivity(Activity.listening("sick beats"));

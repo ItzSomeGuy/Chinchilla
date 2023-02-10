@@ -53,7 +53,7 @@ public class Roll extends SlashCommand {
         int total = 0;
 
         for (int i=0; i<count; i++) {
-            int res = rand.nextInt((sides - 1) + 1) + 1;
+            int res = rand.nextInt(sides) + 1;
             result.add(res);
             total += res;
         }
