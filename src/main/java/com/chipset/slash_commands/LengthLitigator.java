@@ -1,19 +1,21 @@
-package com.chipset.context_menu;
+package com.chipset.slash_commands;
 
-import com.jagrosh.jdautilities.command.UserContextMenu;
-import com.jagrosh.jdautilities.command.UserContextMenuEvent;
+import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.security.SecureRandom;
 import java.util.Objects;
 
-public class LengthLitigator extends UserContextMenu {
-    public LengthLitigator() { this.name = "Length Litigator"; }
+public class LengthLitigator extends SlashCommand {
+    public LengthLitigator() {
+        this.name = "litigate";
+        this.help = "the measuring stick of champions";
+    }
 
     @Override
-    protected void execute(UserContextMenuEvent event) {
-        // min=0, max=2X
+    protected void execute(SlashCommandEvent event) {
         SecureRandom rand = new SecureRandom();
         Guild guild = event.getGuild();
         assert guild != null;
@@ -23,7 +25,8 @@ public class LengthLitigator extends UserContextMenu {
 
         history.retrievePast(100).queue(messages -> {
             boolean existing = false;
-            Member tester = event.getTargetMember();
+
+            Member tester = event.getMember(); assert tester != null;
             User testerUser = tester.getUser();
 
             for (Message m : messages) {
@@ -40,12 +43,17 @@ public class LengthLitigator extends UserContextMenu {
                             .replace("\0", "=") +
                     "D";
 
-            if (!existing && Objects.equals(event.getMember(), event.getTargetMember())) {
-                event.reply(msg).queue();
-            } else if (!Objects.equals(event.getMember(), event.getTargetMember())) {
-                event.reply("stop trying to measure other people's dicks dude...").setEphemeral(true).queue();
-            } else if (existing) {
-                event.reply("you've already been litigated")
+            if (event.getChannel().equals(tc)) {
+                if (!existing) {
+                    event.reply(msg).queue();
+                } else {
+                    event.reply("you've already been litigated")
+                            .setEphemeral(true)
+                            .queue();
+                }
+            } else {
+
+                event.reply("this isn't the place for something like this..try " + tc.getAsMention())
                         .setEphemeral(true)
                         .queue();
             }
