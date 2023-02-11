@@ -3,11 +3,10 @@ package com.chipset.context_menu;
 import com.jagrosh.jdautilities.command.UserContextMenu;
 import com.jagrosh.jdautilities.command.UserContextMenuEvent;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import org.w3c.dom.Text;
 
 import java.security.SecureRandom;
+import java.util.Objects;
 
 public class LengthLitigator extends UserContextMenu {
     public LengthLitigator() { this.name = "Length Litigator"; }
@@ -36,14 +35,16 @@ public class LengthLitigator extends UserContextMenu {
             int length = rand.nextInt(51);
 
             String msg = tester.getAsMention() +
-                    " 8" +
+                    "\n8" +
                     new String(new char[length])
                             .replace("\0", "=") +
                     "D";
 
-            if (!existing) {
+            if (!existing && Objects.equals(event.getMember(), event.getTargetMember())) {
                 event.reply(msg).queue();
-            } else {
+            } else if (!Objects.equals(event.getMember(), event.getTargetMember())) {
+                event.reply("stop trying to measure other people's dicks dude...").setEphemeral(true).queue();
+            } else if (existing) {
                 event.reply("you've already been litigated")
                         .setEphemeral(true)
                         .queue();
