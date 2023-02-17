@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.security.SecureRandom;
-import java.util.Objects;
 
 public class LengthLitigator extends SlashCommand {
     public LengthLitigator() {

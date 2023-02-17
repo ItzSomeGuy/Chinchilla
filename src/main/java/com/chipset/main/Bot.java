@@ -49,6 +49,7 @@ public class Bot {
 
         // add the spade commands
         commandClient.addSlashCommand(new Spade());
+
         commandClient.addContextMenus(
                 new Avatar(),
                 new Reminder()
