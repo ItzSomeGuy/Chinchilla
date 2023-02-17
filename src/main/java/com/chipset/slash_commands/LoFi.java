@@ -13,7 +13,7 @@ public class LoFi extends SlashCommand {
     @Override
     protected void execute(SlashCommandEvent event) {
         StringSelectMenu vibeCheck = StringSelectMenu.create("menu:vibeCheck")
-                .setPlaceholder("horny vibes are currently out of stock")
+                //.setPlaceholder("horny vibes are currently out of stock")
                 .setRequiredRange(1,1)
                 .addOption("relaxing", "relax")
                 .addOption("chill", "chill")

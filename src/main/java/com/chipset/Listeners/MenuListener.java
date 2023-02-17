@@ -116,7 +116,13 @@ public class MenuListener extends ListenerAdapter {
             String vibe = event.getInteraction().getValues().get(0);
 
             event.getInteraction().editMessage("enjoy the "+ vibe +" vibes!").queue();
-            event.getInteraction().editSelectMenu(null).queue();
+            event.getInteraction().editSelectMenu(
+                    event.getSelectMenu()
+                            .createCopy()
+                            .setPlaceholder(event.getInteraction().getValues().get(0))
+                            .setDisabled(true)
+                            .build()
+            ).queue();
 
             VoiceChannel vc = event.getMember().getVoiceState().getChannel().asVoiceChannel();
             TextChannel tc = event.getChannel().asTextChannel();
