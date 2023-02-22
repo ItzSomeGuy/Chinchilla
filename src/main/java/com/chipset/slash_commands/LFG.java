@@ -1,26 +1,15 @@
 package com.chipset.slash_commands;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.selections.EntitySelectMenu;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -39,16 +28,16 @@ public class LFG extends SlashCommand {
         this.help = "looking for games";
 
         this.children = new SlashCommand[]{
-                new Birth(),
-                new Abort()
+                new SubLFGBirth(),
+                new SubLFGAbort()
         };
     }
 
     @Override
     protected void execute(SlashCommandEvent event) {}
 
-    private static class Birth extends SlashCommand {
-        public Birth() {
+    private static class SubLFGBirth extends SlashCommand {
+        public SubLFGBirth() {
             this.name = "birth";
             this.help = "you get your partner preggo with your new LFG. Sadly your partner was lost in the process...";
         }
@@ -75,8 +64,8 @@ public class LFG extends SlashCommand {
             event.replyModal(modal).queue();
         }
     }
-    private static class Abort extends SlashCommand {
-        public Abort() {
+    private static class SubLFGAbort extends SlashCommand {
+        public SubLFGAbort() {
             this.name = "abort";
             this.help = "you better grab your coat hanger..";
         }

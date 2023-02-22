@@ -41,10 +41,10 @@ public class Bot {
         // add them to the commandClient
         Set<Class<? extends SlashCommand>> commands = findCommands("com.chipset.slash_commands");
         for (Class<? extends SlashCommand> command : commands) {
-            if (!command.getSimpleName().equals("Abort") && !command.getSimpleName().equals("Birth")) {
-                SlashCommand temp = command.getConstructor().newInstance();
-                commandClient.addSlashCommand(temp);
-            }
+            if (command.getName().contains("Sub"))
+                continue;
+            SlashCommand temp = command.getConstructor().newInstance();
+            commandClient.addSlashCommand(temp);
         }
 
         // add the spade commands
