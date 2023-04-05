@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Free extends SlashCommand {
     public Free() {
         name = "free";
-        help = "wip";
+        help = "shows the free games from epic";
     }
     @Override
     protected void execute(SlashCommandEvent event) {
