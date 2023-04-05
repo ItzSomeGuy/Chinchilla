@@ -55,7 +55,7 @@ public class Play extends SlashCommand {
 
             assert option != null;
             String link = option.getAsString();
-            TextChannel channel = event.getTextChannel();
+            TextChannel channel = event.getGuild().getRulesChannel();
 
             PlayerManager.getInstance().loadAndPlay(channel, link, shuffle, 20);
 
@@ -63,7 +63,10 @@ public class Play extends SlashCommand {
 
             try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
 
-            String songName = musicManager.audioPlayer.getPlayingTrack().getInfo().title;
+            String songName = null;
+            try {
+                songName = musicManager.audioPlayer.getPlayingTrack().getInfo().title;
+            } catch (Exception ignored) {}
 
             event.reply("adding " + songName).setEphemeral(true).queue();
         } else {

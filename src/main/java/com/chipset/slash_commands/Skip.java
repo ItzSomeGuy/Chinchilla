@@ -27,7 +27,12 @@ public class Skip extends SlashCommand {
     @Override
     public void execute(SlashCommandEvent event) {
         OptionMapping option = event.getOption("song");
-        int n = option.getAsInt();
+
+        int n = 0; assert option != null;
+        try {
+            n = option.getAsInt();
+        } catch (Exception ignored) {}
+
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
         final AudioPlayer audioPlayer = musicManager.audioPlayer;
 

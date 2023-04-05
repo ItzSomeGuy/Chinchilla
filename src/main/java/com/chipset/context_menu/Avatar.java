@@ -2,7 +2,6 @@ package com.chipset.context_menu;
 
 import com.jagrosh.jdautilities.command.UserContextMenu;
 import com.jagrosh.jdautilities.command.UserContextMenuEvent;
-import net.dv8tion.jda.api.entities.Member;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
