@@ -1,6 +1,5 @@
 package com.chipset.slash_commands.pathfinder;
 
-import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -44,7 +43,7 @@ public class pfCrit extends SlashCommand {
         String modString = "";
         try {
             mod = event.getOption("mod").getAsInt();
-            modString = mod >=0 ? "+mod" : Integer.toString(mod);
+            modString = mod >=0 ? "+"+mod : Integer.toString(mod);
         } catch (NullPointerException ignored) {}
 
         List<Integer> result = new ArrayList<>();
@@ -67,7 +66,7 @@ public class pfCrit extends SlashCommand {
         }
         total *= multiplier;
 
-        String rolls = String.format("**rolled:** %s ", result.toString().replaceAll("[,\\[\\]]",""));
+        String rolls = String.format("**rolled:** %s %s => %s", result.toString().replaceAll("[,\\[\\]]",""), modString, total/multiplier);
         rolls = rolls.replaceAll(" 1 ", " *1* ");
         rolls = rolls.replaceAll(String.valueOf(sides), "**"+sides+"**");
 
