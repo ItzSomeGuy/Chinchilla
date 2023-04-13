@@ -72,11 +72,6 @@ public class LFG extends SlashCommand {
 
         @Override
         protected void execute(SlashCommandEvent event) {
-            ForumChannel lfg_board = Objects.requireNonNull(event.getGuild()).getForumChannelById(1062841778270642308L);
-
-            assert lfg_board != null;
-            Collection<ThreadChannel> lfg_list = lfg_board.getThreadChannels();
-
             EntitySelectMenu menu = EntitySelectMenu.create("lfg_abort", EntitySelectMenu.SelectTarget.CHANNEL)
                     .setPlaceholder("who gets the coat hanger tonight?")
                     .setChannelTypes(ChannelType.GUILD_PUBLIC_THREAD)

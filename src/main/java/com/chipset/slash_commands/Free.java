@@ -30,7 +30,7 @@ public class Free extends SlashCommand {
         }
     }
 
-    private static ArrayList<JSONObject> getPromotions() {
+    public static ArrayList<JSONObject> getPromotions() {
         JSONObject data;
         JSONArray res = null;
         try {
@@ -62,7 +62,7 @@ public class Free extends SlashCommand {
         return results;
     }
 
-    private static ArrayList<MessageEmbed> generateEmbeds(ArrayList<JSONObject> promotions) {
+    public static ArrayList<MessageEmbed> generateEmbeds(ArrayList<JSONObject> promotions) {
         ArrayList<MessageEmbed> embeds = new ArrayList<>();
         String temp;
 
@@ -88,7 +88,7 @@ public class Free extends SlashCommand {
                     sb.toString(),
                     true
                     );
-            builder.addField("", "[Epic Launcher](com.epicgames.launcher://apps/"+launcherUrl+"?action=launch&silent=true)", true);
+            builder.addField("", "[~~Epic Launcher~~](com.epicgames.launcher://apps/"+launcherUrl+"?action=launch&silent=true)", true);
             //com.epicgames.launcher://apps/{product-id}?action=launch&silent=true
 
             sb.setLength(0); // clear string builder
