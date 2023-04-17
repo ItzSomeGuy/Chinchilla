@@ -1,7 +1,6 @@
 package com.chipset.Listeners;
 
 import com.chipset.slash_commands.Free;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -12,9 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.chipset.slash_commands.Free.generateEmbeds;
 
@@ -38,7 +34,7 @@ public class ReadyListener extends ListenerAdapter {
             date.add(Calendar.WEEK_OF_YEAR, 1);
         }
 
-        // Schedule the task to run every Thursday at noon
+        // Schedule the task to run every Thursday at 4:20pm
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 ArrayList<JSONObject> results = Free.getPromotions();

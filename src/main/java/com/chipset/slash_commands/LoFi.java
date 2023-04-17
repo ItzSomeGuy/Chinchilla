@@ -19,6 +19,7 @@ public class LoFi extends SlashCommand {
                 .addOption("chill", "chill")
                 .addOption("studying", "study")
                 .addOption("sleepy", "sleep")
+                .addOption("gaming", "game")
                 .build();
 
         event.reply("What's the vibe?")

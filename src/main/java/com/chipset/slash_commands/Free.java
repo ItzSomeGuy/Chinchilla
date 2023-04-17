@@ -112,6 +112,8 @@ public class Free extends SlashCommand {
                     false
             );
 
+            builder.addField("Original Price:", "More than I am getting paid for this.", false);
+
             builder.setImage(promotion.getJSONArray("keyImages")
                     .getJSONObject(2)
                     .getString("url"));

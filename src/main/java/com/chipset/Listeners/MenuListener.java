@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 import org.jetbrains.annotations.NotNull;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -138,8 +139,15 @@ public class MenuListener extends ListenerAdapter {
                     link = "https://www.youtube.com/watch?v=jfKfPfyJRdk";
                     break;
                 case "sleep":
-                case "chill":
                     link = "https://www.youtube.com/watch?v=rUxyKA_-grg";
+                    break;
+                case "chill":
+                    SecureRandom rand = new SecureRandom();
+                    boolean random = rand.nextBoolean();
+                    link = random  ? "https://www.youtube.com/watch?v=rUxyKA_-grg" : "https://www.youtube.com/watch?v=MVPTGNGiI-4";
+                    break;
+                case "game":
+                    link = "https://www.youtube.com/watch?v=MVPTGNGiI-4";
                     break;
             }
 
