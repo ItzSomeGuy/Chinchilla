@@ -24,8 +24,8 @@ public class ReadyListener extends ListenerAdapter {
         Timer timer = new Timer();
         Calendar date = Calendar.getInstance();
         date.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-        date.set(Calendar.HOUR_OF_DAY, 16);
-        date.set(Calendar.MINUTE, 20);
+        date.set(Calendar.HOUR_OF_DAY, 11);
+        date.set(Calendar.MINUTE, 0);
         date.set(Calendar.SECOND, 0);
         date.set(Calendar.MILLISECOND, 0);
 
