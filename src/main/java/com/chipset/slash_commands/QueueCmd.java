@@ -3,10 +3,9 @@ package com.chipset.slash_commands;
 import com.chipset.Lavaplayer.GuildMusicManager;
 import com.chipset.Lavaplayer.PlayerManager;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class QueueCmd extends SlashCommand {
 
     @Override
     public void execute(SlashCommandEvent event) {
-        TextChannel channel = event.getTextChannel();
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(Objects.requireNonNull(event.getGuild()));
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
         final AudioTrack currentTrack = musicManager.audioPlayer.getPlayingTrack();
