@@ -126,7 +126,7 @@ public class MenuListener extends ListenerAdapter {
             ).queue();
 
             VoiceChannel vc = event.getMember().getVoiceState().getChannel().asVoiceChannel();
-            TextChannel tc = event.getChannel().asTextChannel();
+            TextChannel tc = event.getGuild().getRulesChannel();
 
             AudioManager manager = Objects.requireNonNull(event.getGuild()).getAudioManager();
             manager.openAudioConnection(vc);
