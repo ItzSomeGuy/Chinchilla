@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -90,13 +89,6 @@ public class Free extends SlashCommand {
 
             sb.setLength(0); // clear string builder
             try {
-                temp = promotion.getJSONObject("promotions")
-                        .getJSONArray("promotionalOffers")
-                        .getJSONObject(0)
-                        .getJSONArray("promotionalOffers")
-                        .getJSONObject(0)
-                        .getString("endDate");
-
                 // set temp to promotions.promotionalOffers.0.promotionalOffers.0.endDate
                 temp = promotion.getJSONObject("promotions")
                         .getJSONArray("promotionalOffers")
@@ -106,9 +98,6 @@ public class Free extends SlashCommand {
                         .getString("endDate");
 
                 LocalDateTime inputDateTime = LocalDateTime.parse(temp, DateTimeFormatter.ISO_DATE_TIME);
-                ZonedDateTime inputZonedDateTime = inputDateTime.atZone(ZoneId.of("UTC"));
-                ZoneId etTimeZone = ZoneId.of("America/New_York");
-                ZonedDateTime etZonedDateTime = inputZonedDateTime.withZoneSameInstant(etTimeZone);
                 long dateTime = inputDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
 
                 builder.addField(
