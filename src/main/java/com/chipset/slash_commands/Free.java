@@ -6,6 +6,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
@@ -78,8 +79,6 @@ public class Free extends SlashCommand {
                     .getJSONObject(0)
                     .getString("pageSlug");
 
-            String launcherUrl = promotion.getJSONArray("items").getJSONObject(0).getString("id");
-
             sb.append("[epicgames.com](").append(temp).append(")");
 
             builder.setTitle(promotion.getString("title"));
@@ -88,39 +87,47 @@ public class Free extends SlashCommand {
                     sb.toString(),
                     true
                     );
-            builder.addField("", "[~~Epic Launcher~~](com.epicgames.launcher://apps/"+launcherUrl+"?action=launch&silent=true)", true);
-            //com.epicgames.launcher://apps/{product-id}?action=launch&silent=true
 
             sb.setLength(0); // clear string builder
-            // set temp to promotions.promotionalOffers.0.promotionalOffers.0.endDate
-            temp = promotion.getJSONObject("promotions")
-                    .getJSONArray("promotionalOffers")
-                    .getJSONObject(0)
-                    .getJSONArray("promotionalOffers")
-                    .getJSONObject(0)
-                    .getString("endDate");
+            try {
+                temp = promotion.getJSONObject("promotions")
+                        .getJSONArray("promotionalOffers")
+                        .getJSONObject(0)
+                        .getJSONArray("promotionalOffers")
+                        .getJSONObject(0)
+                        .getString("endDate");
 
-            LocalDateTime inputDateTime = LocalDateTime.parse(temp, DateTimeFormatter.ISO_DATE_TIME);
-            ZonedDateTime inputZonedDateTime = inputDateTime.atZone(ZoneId.of("UTC"));
-            ZoneId etTimeZone = ZoneId.of("America/New_York");
-            ZonedDateTime etZonedDateTime = inputZonedDateTime.withZoneSameInstant(etTimeZone);
-            String formattedDateTime = etZonedDateTime.format(DateTimeFormatter.ofPattern("d MMMM, yyyy @ hh:mm a z"));
+                // set temp to promotions.promotionalOffers.0.promotionalOffers.0.endDate
+                temp = promotion.getJSONObject("promotions")
+                        .getJSONArray("promotionalOffers")
+                        .getJSONObject(0)
+                        .getJSONArray("promotionalOffers")
+                        .getJSONObject(0)
+                        .getString("endDate");
 
-            builder.addField(
-                    "Get it before:",
-                    "`" + formattedDateTime + "` \uD83D\uDC40",
-                    false
-            );
+                LocalDateTime inputDateTime = LocalDateTime.parse(temp, DateTimeFormatter.ISO_DATE_TIME);
+                ZonedDateTime inputZonedDateTime = inputDateTime.atZone(ZoneId.of("UTC"));
+                ZoneId etTimeZone = ZoneId.of("America/New_York");
+                ZonedDateTime etZonedDateTime = inputZonedDateTime.withZoneSameInstant(etTimeZone);
+                long dateTime = inputDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
 
-            builder.addField("Original Price:", "More than I am getting paid for this.", false);
+                builder.addField(
+                        "Offer Expires:",
+                        "<t:" + dateTime + ":R> \uD83D\uDC40",
+                        false
+                );
 
-            builder.setImage(promotion.getJSONArray("keyImages")
-                    .getJSONObject(2)
-                    .getString("url"));
+                builder.addField("Original Price:", "More than I am getting paid for this.", false);
 
-            builder.setColor(0x48581a);
+                builder.setImage(promotion.getJSONArray("keyImages")
+                        .getJSONObject(2)
+                        .getString("url"));
 
-            embeds.add(builder.build());
+                builder.setColor(0x48581a);
+
+                embeds.add(builder.build());
+            } catch (JSONException ignored) {}
+
         }
 
         return embeds;
