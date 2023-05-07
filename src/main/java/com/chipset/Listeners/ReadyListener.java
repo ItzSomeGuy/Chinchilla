@@ -24,7 +24,7 @@ public class ReadyListener extends ListenerAdapter {
         Timer timer = new Timer();
         Calendar date = Calendar.getInstance();
         date.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-        date.set(Calendar.HOUR_OF_DAY, 11);
+        date.set(Calendar.HOUR_OF_DAY, 12);
         date.set(Calendar.MINUTE, 0);
         date.set(Calendar.SECOND, 0);
         date.set(Calendar.MILLISECOND, 0);
@@ -34,7 +34,7 @@ public class ReadyListener extends ListenerAdapter {
             date.add(Calendar.WEEK_OF_YEAR, 1);
         }
 
-        // Schedule the task to run every Thursday at 4:20pm
+        // Schedule the task to run every Thursday at 12pm
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 ArrayList<JSONObject> results = Free.getPromotions();
