@@ -3,6 +3,7 @@ package com.chipset.main;
 
 import com.chipset.Listeners.MenuListener;
 import com.chipset.Listeners.ModalListener;
+import com.chipset.Listeners.ReactionListener;
 import com.chipset.Listeners.ReadyListener;
 import com.chipset.context_menu.Avatar;
 import com.chipset.context_menu.Reminder;
@@ -71,7 +72,8 @@ public class Bot {
                 new ReadyListener(),
                 new ChannelHandler(),
                 new ModalListener(),
-                new MenuListener()
+                new MenuListener(),
+                new ReactionListener()
         );
 
         jda = builder.build();
