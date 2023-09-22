@@ -55,7 +55,7 @@ public class LFG extends SlashCommand {
                     .setRequiredRange(1, 2000)
                     .build();
             Modal modal = Modal.create("lfg_create", "New LFG")
-                    .addActionRows(ActionRow.of(game), ActionRow.of(desc))
+                    .addComponents(ActionRow.of(game), ActionRow.of(desc))
                     .build();
             event.replyModal(modal).queue();
         }

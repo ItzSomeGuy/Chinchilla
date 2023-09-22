@@ -16,7 +16,8 @@ public class pfCrit extends SlashCommand {
 
         List<OptionData> options = new ArrayList<>();
         options.add(new OptionData(OptionType.STRING, "calc", "the damage roll").setRequired(true));
-        options.add(new OptionData(OptionType.INTEGER, "mod", "the modifier").setRequired(false));
+        options.add(new OptionData(OptionType.INTEGER, "mod",
+                "the modifier").setRequired(false));
         options.add(new OptionData(OptionType.INTEGER, "multiplier", "crit multiplier").setRequired(false));
 
         this.options = options;
