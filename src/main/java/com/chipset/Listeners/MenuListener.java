@@ -116,7 +116,7 @@ public class MenuListener extends ListenerAdapter {
         } else if (event.getInteraction().getSelectMenu().getId().equals("menu:vibeCheck")) {
             String vibe = event.getInteraction().getValues().get(0);
 
-            event.getInteraction().editMessage("enjoy the "+ vibe +" vibes!").queue();
+            event.getInteraction().editMessage("enjoy the " + vibe + " vibes!").queue();
             event.getInteraction().editSelectMenu(
                     event.getSelectMenu()
                             .createCopy()
@@ -144,7 +144,7 @@ public class MenuListener extends ListenerAdapter {
                 case "chill":
                     SecureRandom rand = new SecureRandom();
                     boolean random = rand.nextBoolean();
-                    link = random  ? "https://www.youtube.com/watch?v=rUxyKA_-grg" : "https://www.youtube.com/watch?v=MVPTGNGiI-4";
+                    link = random ? "https://www.youtube.com/watch?v=rUxyKA_-grg" : "https://www.youtube.com/watch?v=MVPTGNGiI-4";
                     break;
                 case "game":
                     link = "https://www.youtube.com/watch?v=MVPTGNGiI-4";
