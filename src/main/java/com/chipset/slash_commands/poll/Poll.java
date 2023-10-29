@@ -73,7 +73,10 @@ public class Poll extends SlashCommand {
                 buttonCount++;
                 buttons.add(Button.primary("poll-o-op"+buttonCount, choice));
             }
-            //buttons.add(Button.secondary("poll-n-new", "something else?"));
+
+            if (buttonCount < 5) {
+                buttons.add(Button.secondary("poll-n-new", "something else?"));
+            }
 
             List<LayoutComponent> list = new ArrayList<>();
             list.add(ActionRow.of(buttons));

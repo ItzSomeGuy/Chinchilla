@@ -12,6 +12,9 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,12 +29,6 @@ public class PollListener extends ListenerAdapter {
             String vote = interaction.getButton().getLabel();
             Message msg = interaction.getMessage();
             MessageEmbed oldEmebd = msg.getEmbeds().get(0);
-
-            /*
-            add vote
-            update total
-            update graphic
-             */
 
             PollHandler.Poll poll;
             try {
@@ -62,6 +59,18 @@ public class PollListener extends ListenerAdapter {
 
             msg.editMessageEmbeds(newEmbed).queue();
             event.reply("thanks for voting!").setEphemeral(true).queue();
+        } else if (interaction.getButton().getId().startsWith("poll-n-")) {
+            TextInput subject = TextInput.create("choice", "Custom Choice", TextInputStyle.SHORT.SHORT)
+                    .setPlaceholder("Custom Choice")
+                    .setMinLength(1)
+                    .setMaxLength(50)
+                    .build();
+
+            Modal modal = Modal.create("poll-custom-"+event.getMessage().getEmbeds().get(0).getTitle(), "Custom Poll Choice")
+                    .addComponents(ActionRow.of(subject))
+                    .build();
+
+            event.replyModal(modal).queue();
         }
     }
 
