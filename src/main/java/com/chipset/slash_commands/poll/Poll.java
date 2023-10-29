@@ -30,11 +30,18 @@ public class Poll extends SlashCommand {
         for (int i = 3; i <= 5; i++) {
             options.add(new OptionData(OptionType.STRING, "op" + i, "Option " + i, false));
         }
+
+        options.add(new OptionData(OptionType.BOOLEAN, "custom", "allow custom choices", false));
     }
 
     @Override
     protected void execute(SlashCommandEvent event) {
         // create the poll...easy...
+        boolean custom = true;
+        try {
+            custom = event.getOption("custom").getAsBoolean();
+        } catch (NullPointerException ignored) {}
+
         String question = event.getOption("question").getAsString();
         ArrayList<String> choices = new ArrayList<>();
 
@@ -60,7 +67,7 @@ public class Poll extends SlashCommand {
             buttons.add(Button.primary("poll-o-op" + buttonCount, choice));
         }
 
-        if (buttonCount < 5) {
+        if (buttonCount < 5 && custom) {
             buttons.add(Button.secondary("poll-n-new", "something else?"));
         }
 

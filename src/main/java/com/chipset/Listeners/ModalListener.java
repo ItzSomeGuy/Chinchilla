@@ -35,7 +35,6 @@ public class ModalListener extends ListenerAdapter {
         } else if (event.getModalId().startsWith("poll-custom-")) {
             String choice = Objects.requireNonNull(event.getValue("choice")).getAsString();
             String question = event.getModalId().substring(12);
-            System.out.println(choice);
 
             PollHandler.Poll poll;
             try {
@@ -43,11 +42,8 @@ public class ModalListener extends ListenerAdapter {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            System.out.println(poll.getChoices());
             poll.addChoice(choice);
-            System.out.println(poll.getChoices());
             poll.vote(choice, event.getMember());
-            System.out.println(poll.getTotalVotes());
 
             // update embed
             Message msg = event.getMessage();
