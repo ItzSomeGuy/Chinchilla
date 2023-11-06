@@ -92,7 +92,7 @@ public class Poll extends SlashCommand {
 
         for (String choice :
                 choices) {
-            embedBuilder.addField("**~** " + choice + " 0 - (0%)", "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛", false);
+            embedBuilder.addField("**~** " + choice + " - 0 (0%)", "⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛", false);
         }
         embedBuilder.setFooter("Total Votes: 0");
 
