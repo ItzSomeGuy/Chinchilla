@@ -1,22 +1,19 @@
 package com.chipset.spade;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.IPermissionHolder;
-import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Spade extends SlashCommand {
     public Spade() {
@@ -81,7 +78,7 @@ protected void execute(SlashCommandEvent event) {
     }
 
     // Add the friend to the channel
-    vc.getManager().putMemberPermissionOverride(friend.getIdLong(), Permission.VIEW_CHANNEL.getRawValue(), 0L).queue();
+    vc.getManager().putMemberPermissionOverride(friend.getIdLong(), Permission.VIEW_CHANNEL.getRawValue(), 0L).complete();
 
     event.reply("Added " + friend.getAsMention() + " to " + vc.getAsMention() + "!").setEphemeral(true).queue();
 
