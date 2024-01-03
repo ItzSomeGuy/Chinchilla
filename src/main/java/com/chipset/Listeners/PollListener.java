@@ -1,82 +1,76 @@
 package com.chipset.Listeners;
 
 import com.chipset.main.Bot;
+import com.chipset.slash_commands.poll.Poll;
 import com.chipset.slash_commands.poll.PollHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.channel.concrete.ForumChannel;
-import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.LayoutComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.interactions.components.buttons.ButtonInteraction;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class ModalListener extends ListenerAdapter {
-
+public class PollListener extends ListenerAdapter {
     @Override
-    public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-        if (event.getModalId().equals("lfg_create")) {
-            String game = Objects.requireNonNull(event.getValue("game")).getAsString();
-            String desc = Objects.requireNonNull(event.getValue("desc")).getAsString();
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        ButtonInteraction interaction = event.getInteraction();
 
-            ForumChannel lfg_board = Objects.requireNonNull(event.getGuild()).getForumChannelById(1062841778270642308L);
-
-            assert lfg_board != null;
-            lfg_board.createForumPost(game, MessageCreateData.fromContent(desc)).queue(channel -> {
-                channel.getThreadChannel().addThreadMember(Objects.requireNonNull(event.getMember())).queue();
-            });
-
-            event.reply("A LFG for " + game + " was created!").setEphemeral(true).queue();
-        } else if (event.getModalId().startsWith("poll-custom-")) {
-            String choice = Objects.requireNonNull(event.getValue("choice")).getAsString();
-            String question = event.getModalId().substring(12);
+        if (interaction.getButton().getId().startsWith("poll-o-")) { // if button belongs to a poll
+            String vote = interaction.getButton().getLabel();
+            Message msg = interaction.getMessage();
+            MessageEmbed oldEmebd = msg.getEmbeds().get(0);
 
             PollHandler.Poll poll;
             try {
-                poll = Bot.pollHandler.getPoll(question);
+                poll = Bot.pollHandler.getPoll(oldEmebd.getTitle());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            poll.addChoice(choice);
-            poll.vote(choice, event.getMember());
+
+            // identify vote
+            boolean voted = poll.vote(vote, event.getMember());
 
             // update embed
-            Message msg = event.getMessage();
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
             embedBuilder.setTitle(poll.getQuestion());
 
-            for (String c :
+            for (String choice :
                     poll.getChoices()) {
                 // do maths
-                int votes = poll.getChoiceVoteCount(c);
+                int votes = poll.getChoiceVoteCount(choice);
                 int percent = Math.round((votes * 100.0f) / poll.getTotalVotes());
                 String bar = createProgressBar(percent, votes, poll.getTop());
                 // update embed
-                embedBuilder.addField("**~** " + c + " - " + poll.getChoiceVoteCount(c) + " (" + percent + "%)", bar, false);
+                embedBuilder.addField("**~** " + choice + " - " + poll.getChoiceVoteCount(choice) + " (" + percent + "%)", bar, false);
             }
             embedBuilder.setFooter("Total Votes: " + poll.getTotalVotes());
             MessageEmbed newEmbed = embedBuilder.build();
 
             msg.editMessageEmbeds(newEmbed).queue();
-
-            // update action row
-            List<Button> buttons = msg.getButtons();
-            buttons.remove(buttons.size()-1);
-            buttons.add(Button.primary("poll-o-op"+buttons.size()+1, choice));
-            System.out.println(buttons.size());
-            if (buttons.size() < 5) {
-                buttons.add(Button.secondary("poll-n-new", "something else?"));
-            }
-
-            msg.editMessageComponents(ActionRow.of(buttons)).queue();
-
             event.reply("thanks for voting!").setEphemeral(true).queue();
+        } else if (interaction.getButton().getId().startsWith("poll-n-")) {
+            TextInput subject = TextInput.create("choice", "Custom Choice", TextInputStyle.SHORT.SHORT)
+                    .setPlaceholder("Custom Choice")
+                    .setMinLength(1)
+                    .setMaxLength(50)
+                    .build();
+
+            Modal modal = Modal.create("poll-custom-"+event.getMessage().getEmbeds().get(0).getTitle(), "Custom Poll Choice")
+                    .addComponents(ActionRow.of(subject))
+                    .build();
+
+            event.replyModal(modal).queue();
         }
     }
 

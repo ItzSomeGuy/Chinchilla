@@ -1,12 +1,10 @@
 package com.chipset.main;
 
 
-import com.chipset.Listeners.MenuListener;
-import com.chipset.Listeners.ModalListener;
-import com.chipset.Listeners.ReactionListener;
-import com.chipset.Listeners.ReadyListener;
+import com.chipset.Listeners.*;
 import com.chipset.context_menu.Avatar;
 import com.chipset.context_menu.Reminder;
+import com.chipset.slash_commands.poll.PollHandler;
 import com.chipset.spade.ChannelHandler;
 import com.chipset.spade.Spade;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -34,6 +32,8 @@ public class Bot {
 
     private static final EventWaiter eventWaiter = new EventWaiter();
 
+    public static PollHandler pollHandler;
+
     public static void main(String[] arguments) throws InterruptedException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         CommandClientBuilder commandClient = new CommandClientBuilder();
         commandClient.forceGuildOnly(193117152709050368L);
@@ -50,6 +50,9 @@ public class Bot {
 
         // add the spade commands
         commandClient.addSlashCommand(new Spade());
+
+        // create poll handler
+        pollHandler = new PollHandler();
 
         commandClient.addContextMenus(
                 new Avatar(),
@@ -73,7 +76,8 @@ public class Bot {
                 new ChannelHandler(),
                 new ModalListener(),
                 new MenuListener(),
-                new ReactionListener()
+                new ReactionListener(),
+                new PollListener()
         );
 
         jda = builder.build();
