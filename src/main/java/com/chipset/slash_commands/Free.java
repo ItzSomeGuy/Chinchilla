@@ -64,59 +64,40 @@ public class Free extends SlashCommand {
 
     public static ArrayList<MessageEmbed> generateEmbeds(ArrayList<JSONObject> promotions) {
         ArrayList<MessageEmbed> embeds = new ArrayList<>();
-        String temp;
 
         for (JSONObject promotion : promotions) {
-            StringBuilder sb = new StringBuilder();
             EmbedBuilder builder = new EmbedBuilder();
 
-            // base store url
-            temp = "https://store.epicgames.com/en-US/p/";
-            // append promotion.catalogNs.mappings.0.pageSlug
-            temp += promotion.getJSONObject("catalogNs")
-                    .getJSONArray("mappings")
-                    .getJSONObject(0)
-                    .getString("pageSlug");
-
-            sb.append("[epicgames.com](").append(temp).append(")");
-
+            // Set the title
             builder.setTitle(promotion.getString("title"));
-            builder.addField(
-                    "Claim Promotion:\n",
-                    sb.toString(),
-                    true
-                    );
 
-            sb.setLength(0); // clear string builder
-            try {
-                // set temp to promotions.promotionalOffers.0.promotionalOffers.0.endDate
-                temp = promotion.getJSONObject("promotions")
-                        .getJSONArray("promotionalOffers")
-                        .getJSONObject(0)
-                        .getJSONArray("promotionalOffers")
-                        .getJSONObject(0)
-                        .getString("endDate");
+            // Add the game's link
+            String link = "https://store.epicgames.com/en-US/p/" + promotion.getString("productSlug");
+            builder.addField("Claim Promotion:", "[epicgames.com](" + link + ")", true);
 
-                LocalDateTime inputDateTime = LocalDateTime.parse(temp, DateTimeFormatter.ISO_DATE_TIME);
-                long dateTime = inputDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+            // Add the end date of the promotion
+            String endDate = promotion.getJSONObject("promotions")
+                    .getJSONArray("promotionalOffers")
+                    .getJSONObject(0)
+                    .getJSONArray("promotionalOffers")
+                    .getJSONObject(0)
+                    .getString("endDate");
+            LocalDateTime inputDateTime = LocalDateTime.parse(endDate, DateTimeFormatter.ISO_DATE_TIME);
+            long dateTime = inputDateTime.atZone(ZoneId.systemDefault()).toEpochSecond();
+            builder.addField("Offer Expires:", "<t:" + dateTime + ":R> \uD83D\uDC40", false);
 
-                builder.addField(
-                        "Offer Expires:",
-                        "<t:" + dateTime + ":R> \uD83D\uDC40",
-                        false
-                );
+            // Add the original price
+            builder.addField("Original Price:", "More than I am getting paid for this.", false);
 
-                builder.addField("Original Price:", "More than I am getting paid for this.", false);
+            // Set the image
+            String imageUrl = promotion.getJSONArray("keyImages").getJSONObject(0).getString("url");
+            builder.setImage(imageUrl);
 
-                builder.setImage(promotion.getJSONArray("keyImages")
-                        .getJSONObject(2)
-                        .getString("url"));
+            // Set the color
+            builder.setColor(0x48581a);
 
-                builder.setColor(0x48581a);
-
-                embeds.add(builder.build());
-            } catch (JSONException ignored) {}
-
+            // Build the embed and add it to the list
+            embeds.add(builder.build());
         }
 
         return embeds;
