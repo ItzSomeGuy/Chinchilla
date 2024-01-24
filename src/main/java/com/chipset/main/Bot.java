@@ -77,7 +77,8 @@ public class Bot {
                 new ModalListener(),
                 new MenuListener(),
                 new ReactionListener(),
-                new PollListener()
+                new PollListener(),
+                new NicknameListener()
         );
 
         jda = builder.build();
