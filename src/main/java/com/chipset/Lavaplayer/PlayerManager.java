@@ -65,7 +65,10 @@ public class PlayerManager {
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                //
+                if (exception.severity == FriendlyException.Severity.COMMON) {
+                    // This is where you handle the exception for age-restricted videos
+                    channel.sendMessage("The requested video is age-restricted and cannot be played.").queue();
+                }
             }
         });
     }
