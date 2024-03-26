@@ -96,7 +96,7 @@ public class ReadyListener extends ListenerAdapter {
         );
 
         // Get the Member object for the specified member
-         Member member = guild.getMemberById("78953526977368064L"); assert member != null;
+         Member member = guild.getMemberById("78953526977368064"); assert member != null;
 
         // Create a new TimerTask
         TimerTask renameTask = new TimerTask() {
