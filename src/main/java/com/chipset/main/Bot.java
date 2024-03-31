@@ -18,10 +18,12 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.util.Set;
 
 
@@ -66,8 +68,20 @@ public class Bot {
         CommandClient client = commandClient.build();
 
         JDABuilder builder = JDABuilder.createDefault(token);
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+
+        MemberCachePolicy policy = MemberCachePolicy.ALL;
+        builder
+                .setMemberCachePolicy(policy)
+                .setChunkingFilter(ChunkingFilter.ALL)
+
+                .enableIntents(
+                        GatewayIntent.GUILD_MESSAGES,
+                        GatewayIntent.MESSAGE_CONTENT,
+                        GatewayIntent.DIRECT_MESSAGES,
+                        GatewayIntent.GUILD_MEMBERS,
+                        GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+                        GatewayIntent.GUILD_WEBHOOKS
+                );
 
         builder.addEventListeners(
                 client,

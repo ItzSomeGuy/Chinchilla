@@ -47,7 +47,7 @@ public class ReadyListener extends ListenerAdapter {
             }
         }, date.getTime(), 7 * 24 * 60 * 60 * 1000L); // repeat every week
 
-        // Change J's nickname constantly
+        // Change nickname constantly
         Guild guild = event.getJDA().getGuildById(193117152709050368L); assert guild != null;
 
         // Define the array of names
@@ -170,7 +170,7 @@ public class ReadyListener extends ListenerAdapter {
         );
 
         // Get the Member object for the specified member
-         Member member = guild.getMemberById("226519889832050688"); assert member != null;
+         Member member = guild.getMemberById(226519889832050688L); assert member != null;
 
         // Create a new TimerTask
         TimerTask renameTask = new TimerTask() {
