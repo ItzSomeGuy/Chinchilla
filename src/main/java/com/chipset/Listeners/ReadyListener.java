@@ -51,62 +51,136 @@ public class ReadyListener extends ListenerAdapter {
         Guild guild = event.getJDA().getGuildById(193117152709050368L); assert guild != null;
 
         // Define the array of names
-        List<String> names = Arrays.asList(
-                "Mallard", "Wood Duck", "Muscovy Duck", "Pekin Duck", "Rouen Duck",
-                "Khaki Campbell", "Indian Runner Duck", "Crested Duck", "Saxony Duck",
-                "Swedish Blue Duck", "Buff Duck", "Cayuga Duck", "Appleyard Duck",
-                "Aylesbury Duck", "Black Swedish Duck", "Blue Swedish Duck", "Call Duck",
-                "Magpie Duck", "Welsh Harlequin Duck", "Indian Runner Duck", "Canvasback Duck",
-                "Gadwall Duck", "Northern Pintail", "Northern Shoveler", "American Wigeon",
-                "Redhead Duck", "Canvasback Duck", "Greater Scaup", "Lesser Scaup",
-                "Tufted Duck", "Ring-necked Duck", "Common Eider", "King Eider",
-                "Harlequin Duck", "Common Goldeneye", "Barrow's Goldeneye",
-                "Bufflehead Duck", "Common Merganser", "Hooded Merganser",
-                "Red-breasted Merganser", "Ruddy Duck", "Falcated Duck",
-                "Baikal Teal", "Garganey Duck", "Eurasian Wigeon", "American Black Duck",
-                "Marbled Teal", "Green-winged Teal", "Blue-winged Teal", "Cinnamon Teal",
-                "European Teal", "Yellow-billed Duck", "Pacific Black Duck",
-                "Australian Shelduck", "Paradise Shelduck", "Radjah Shelduck",
-                "Pink-eared Duck", "Wandering Whistling Duck", "West Indian Whistling Duck",
-                "White-faced Whistling Duck", "Plumed Whistling Duck", "Spotted Whistling Duck",
-                "Black-bellied Whistling Duck", "Fulvous Whistling Duck", "White-backed Duck",
-                "Freckled Duck", "Comb Duck", "Crested Shelduck", "Baer's Pochard",
-                "Madagascar Pochard", "Common Pochard", "Hardhead Duck", "Ringed Teal",
-                "Andean Teal", "Chestnut Teal", "Silver Teal", "Speckled Teal",
-                "Yellow-billed Pintail", "White-cheeked Pintail", "Chiloe Wigeon",
-                "American White Pelican", "Australian Shoveler", "Black-headed Duck",
-                "Black-necked Swan", "Blue-billed Duck", "Blue-winged Goose",
-                "Bronze-winged Duck", "Cape Barren Goose", "Cape Teal", "Chiloe Wigeon",
-                "Cotton Pygmy Goose", "Crested Screamer", "Eurasian Teal", "Fulvous Whistling Duck",
-                "Garganey Teal", "Gray Teal", "Greater White-fronted Goose",
-                "Green Pygmy Goose", "Kelp Goose", "Kerguelen Goose", "Knob-billed Duck",
-                "Laysan Duck", "Lesser White-fronted Goose", "Magellanic Flightless Steamer Duck",
-                "Magellanic Flightless Steamer Duck", "Madagascar Teal", "Mallard Duck",
-                "Masked Duck", "Meller's Duck", "Muscovy Duck", "New Zealand Scaup",
-                "Northern Shoveler", "Orinoco Goose", "Pacific Black Duck", "Puna Teal",
-                "Red Shoveler", "Red-billed Duck", "Red-billed Pintail", "Red-billed Teal",
-                "Red-crested Pochard", "Ring-necked Duck", "Rosy-billed Pochard",
-                "Royal Spoonbill", "Ruddy Duck", "Silver Teal", "Southern Wigeon",
-                "Spectacled Duck", "Spot-billed Duck", "Spot-billed Duck", "Spur-winged Goose",
-                "Steamer Duck", "Steller's Eider", "Subantarctic Teal", "Swan Goose",
-                "Tadorna Duck", "Torrent Duck", "Turquoise Duck", "Vulturine Guineafowl",
-                "Wandering Whistling Duck", "West Indian Whistling Duck", "White-backed Duck",
-                "White-cheeked Pintail", "White-faced Whistling Duck", "White-headed Duck",
-                "White-winged Duck", "Yellow-billed Duck", "Yellow-billed Pintail", "Yellow-billed Teal"
+        List<String> catBreeds = Arrays.asList(
+                // Officially recognized domestic cat breeds
+                "Abyssinian",
+                "American Bobtail",
+                "American Curl",
+                "American Shorthair",
+                "American Wirehair",
+                "Balinese",
+                "Bengal",
+                "Birman",
+                "Bombay",
+                "British Shorthair",
+                "Burmese",
+                "Chartreux",
+                "Cornish Rex",
+                "Devon Rex",
+                "Egyptian Mau",
+                "Exotic Shorthair",
+                "Havana Brown",
+                "Himalayan",
+                "Japanese Bobtail",
+                "Javanese",
+                "Korat",
+                "LaPerm",
+                "Maine Coon",
+                "Manx",
+                "Munchkin",
+                "Nebelung",
+                "Norwegian Forest Cat",
+                "Ocicat",
+                "Oriental",
+                "Persian",
+                "Peterbald",
+                "Pixie-bob",
+                "Ragamuffin",
+                "Ragdoll",
+                "Russian Blue",
+                "Scottish Fold",
+                "Selkirk Rex",
+                "Siamese",
+                "Siberian",
+                "Singapura",
+                "Snowshoe",
+                "Somali",
+                "Sphynx",
+                "Tonkinese",
+                "Toyger",
+                "Turkish Angora",
+                "Turkish Van",
+                "York Chocolate",
+                // Unofficially recognized breeds or mixed breeds
+                "Calico",
+                "Tabby",
+                "Tuxedo",
+                "Torbie",
+                "Domestic Shorthair",
+                "Domestic Longhair",
+                "Domestic Medium Hair",
+                // Designer breeds
+                "Bengal x Siamese",
+                "Maine Coon x Siamese",
+                "Persian x Siamese",
+                // Other popular mixes
+                "Siamese x Domestic",
+                "Maine Coon x American",
+                // Wildcat species
+                "African Wildcat",
+                "European Wildcat",
+                "Asian Wildcat",
+                "Black-footed Cat",
+                "Caracal",
+                "Ocelot",
+                "Serval",
+                // Related animals
+                "Lion",
+                "Tiger",
+                "Leopard",
+                "Jaguar",
+                "Cheetah",
+                "Lynx",
+                "Puma",
+                "Panther",
+                "Civet",
+                "Genet",
+                "Linsang",
+                "Fossa",
+                "Clouded Leopard",
+                "Snow Leopard",
+                "Bobcat",
+                "Cougar",
+                "Jungle Cat",
+                "Sand Cat",
+                "Marbled Cat",
+                "Pallas's Cat",
+                "Andean Mountain Cat",
+                "Iberian Lynx",
+                "Canadian Lynx",
+                // Additional wildcat species
+                "Bengalensis",
+                "Leptailurus",
+                "Felis margarita",
+                "Felis nigripes",
+                "Felis silvestris",
+                // Additional related animals
+                "Servaline Genet",
+                "Binturong",
+                "Tayra",
+                "Asian Golden Cat",
+                "Rusty-spotted Cat",
+                "Flat-headed Cat",
+                "Oncilla",
+                "Geoffroy's Cat",
+                "Bay Cat",
+                "Kodkod"
+                // Add more breeds, species, or related animals here if needed
+                // ...
         );
 
         // Get the Member object for the specified member
-         Member member = guild.getMemberById("78953526977368064L"); assert member != null;
+         Member member = guild.getMemberById("226519889832050688"); assert member != null;
 
         // Create a new TimerTask
         TimerTask renameTask = new TimerTask() {
             @Override
             public void run() {
                 // Generate a random index
-                int randomIndex = new Random().nextInt(names.size());
+                int randomIndex = new Random().nextInt(catBreeds.size());
 
                 // Get a random name from the array
-                String newName = names.get(randomIndex);
+                String newName = catBreeds.get(randomIndex);
 
                 // Rename the user
                 guild.modifyNickname(member, newName).queue();
@@ -114,6 +188,6 @@ public class ReadyListener extends ListenerAdapter {
         };
 
         // Schedule the task to run every 5 seconds, delayed by 5 seconds
-        new Timer().scheduleAtFixedRate(renameTask, 5*1000, 5 * 1000);
+        new Timer().scheduleAtFixedRate(renameTask, 5*1000, 600 * 1000);
     }
 }
