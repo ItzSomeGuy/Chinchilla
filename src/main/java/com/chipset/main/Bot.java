@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.PermissionOverride;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
@@ -23,7 +24,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
+import java.util.List;
 import java.util.Set;
 
 
@@ -31,6 +32,7 @@ public class Bot {
     static Dotenv dotenv = Dotenv.load();
     static String token = dotenv.get("TOKEN");
     public static JDA jda;
+    public static List<PermissionOverride> overrides = null;
 
     private static final EventWaiter eventWaiter = new EventWaiter();
 
@@ -91,7 +93,8 @@ public class Bot {
                 new ModalListener(),
                 new MenuListener(),
                 new ReactionListener(),
-                new PollListener()
+                new PollListener(),
+                new PeopleListener()
         );
 
         jda = builder.build();

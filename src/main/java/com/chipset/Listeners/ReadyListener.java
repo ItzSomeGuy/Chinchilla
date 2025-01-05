@@ -47,69 +47,66 @@ public class ReadyListener extends ListenerAdapter {
             }
         }, date.getTime(), 7 * 24 * 60 * 60 * 1000L); // repeat every week
 
-        // Change nickname constantly
-        Guild guild = event.getJDA().getGuildById(193117152709050368L); assert guild != null;
-
-        // Define the array of names
-        List<String> wormTypes = Arrays.asList(
-                "Earthworm",
-                "Roundworm",
-                "Tapeworm",
-                "Hookworm",
-                "Flatworm",
-                "Bloodworm",
-                "Ragworm",
-                "Pinworm",
-                "Whipworm",
-                "Filarial worm",
-                "Guinea worm",
-                "Leech",
-                "Horsehair worm",
-                "Threadworm",
-                "Ribbon worm",
-                "Arrowworm",
-                "Velvet worm",
-                "Peanut worm",
-                "Beard worm",
-                "Spaghetti worm",
-                "Palolo worm",
-                "Eelworm",
-                "Vinegar eel",
-                "Arrowhead worm",
-                "Bristleworm",
-                "Sandworm",
-                "Moon jellyfish worm",
-                "Horsehair worm",
-                "Arrow worm",
-                "Beard worm",
-                "Horsehair worm",
-                "Blackworm",
-                "Mermithid worm",
-                "Gordian worm",
-                "Acorn worm",
-                "Arrow worm",
-                "Marine worm"
-        );
-
-        // Get the Member object for the specified member
-         Member member = guild.getMemberById(226519889832050688L); assert member != null;
-
-        // Create a new TimerTask
-        TimerTask renameTask = new TimerTask() {
-            @Override
-            public void run() {
-                // Generate a random index
-                int randomIndex = new Random().nextInt(wormTypes.size());
-
-                // Get a random name from the array
-                String newName = wormTypes.get(randomIndex);
-
-                // Rename the user
-                guild.modifyNickname(member, newName).queue();
-            }
-        };
-
-        // Schedule the task to run every 5 seconds, delayed by 5 seconds
-        new Timer().scheduleAtFixedRate(renameTask, 5*1000, 600 * 1000);
+//        // Change nickname constantly
+//        Guild guild = event.getJDA().getGuildById(193117152709050368L); assert guild != null;
+//
+//        // Define the array of names
+//        List<String> fishList = Arrays.asList(
+//                // Freshwater Fish
+//                "Trout", "Bass (Largemouth)", "Bass (Smallmouth)", "Catfish", "Pike",
+//                "Perch", "Salmon", "Carp", "Tilapia", "Bluegill", "Pumpkinseed", "Crappie",
+//                "Sturgeon", "Gar", "Zander", "Arapaima", "Peacock Bass", "Mahseer", "Snakehead",
+//                "Tigerfish",
+//
+//                // Saltwater Fish
+//                "Tuna", "Mahi-mahi", "Cod", "Snapper", "Grouper", "Halibut", "Swordfish",
+//                "Mackerel", "Flounder", "Sea Bass", "Shark", "Marlin", "Wahoo", "Trevally",
+//                "Barracuda", "Triggerfish", "Pompano", "Parrotfish", "Amberjack", "Tilefish",
+//
+//                // Tropical Fish (Commonly Kept in Aquariums)
+//                "Guppy", "Betta (Siamese Fighting Fish)", "Neon Tetra", "Cardinal Tetra",
+//                "Angelfish", "Discus", "Clownfish", "Gourami", "Tiger Barb", "Cherry Barb",
+//                "Rasboras", "Cory Catfish", "Swordtails", "Platies", "Molly Fish", "Pufferfish",
+//                "Archerfish", "Arowana", "Killifish", "Oscars",
+//
+//                // Bottom-Dwelling Fish
+//                "Corydoras Catfish", "Plecostomus", "Loaches", "Eels", "Gobies", "Flounders",
+//                "Rays", "Electric Catfish", "Kuhli Loach", "Blind Cave Fish",
+//
+//                // Predatory Fish
+//                "Piranha", "Wels Catfish", "Barramundi", "Wolffish", "Snakehead",
+//
+//                // Exotic or Unusual Fish
+//                "Axolotl", "Jellyfish", "Flying Fish", "Lionfish", "Goblin Shark",
+//                "Coelacanth", "Gulper Eel", "Oarfish", "Frilled Shark",
+//
+//                // Game Fish
+//                "Sailfish", "Tarpon", "Bonefish", "Rainbow Trout", "Striped Bass",
+//
+//                // Other Marine Fish
+//                "Flying Gurnard", "Wrasse", "Hogfish", "Sardine", "Herring", "Surgeonfish",
+//                "Butterflyfish", "Trumpetfish", "Cowfish"
+//        );
+//
+//        // Get the Member object for the specified member
+//         Member member = guild.getMemberById(78953526977368064L); assert member != null;
+//
+//        // Create a new TimerTask
+//        TimerTask renameTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                // Generate a random index
+//                int randomIndex = new Random().nextInt(fishList.size());
+//
+//                // Get a random name from the array
+//                String newName = fishList.get(randomIndex);
+//
+//                // Rename the user
+//                guild.modifyNickname(member, newName).queue();
+//            }
+//        };
+//
+//        // Schedule the task to run every 5 seconds, delayed by 5 seconds
+//        new Timer().scheduleAtFixedRate(renameTask, 5*1000, 600 * 1000);
     }
 }
